@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://0ohahh5dri1q"]
+
+[ext_resource type="Script" path="res://src/player/player.gd" id="1_2aa2h"]
+[ext_resource type="Texture2D" uid="uid://blw3d2vuo03y4" path="res://assets/open/circle.png" id="1_obvwi"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+
+[node name="Player" type="Sprite2D" parent="."]
+position = Vector2(173, 222)
+scale = Vector2(0.016537, 0.016537)
+texture = ExtResource("1_obvwi")
+script = ExtResource("1_2aa2h")
