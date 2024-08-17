@@ -9,7 +9,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hg0ay"]
 size = Vector2(224, 35)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_o2o5f"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_icsvt"]
 resource_local_to_scene = true
 size = Vector2(283.51, 93.685)
 
@@ -36,7 +36,7 @@ shape = SubResource("RectangleShape2D_hg0ay")
 
 [node name="ScaleComponent" parent="." instance=ExtResource("3_0bhn3")]
 scale_group = &"Bullet"
-select_rectangle = SubResource("RectangleShape2D_o2o5f")
+select_rectangle = SubResource("RectangleShape2D_icsvt")
 property_scalers = Array[ExtResource("4_mqtg4")]([SubResource("Resource_k5fme")])
 
 [node name="SpriteScalerComponent" type="Node" parent="."]

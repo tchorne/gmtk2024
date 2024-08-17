@@ -10,6 +10,7 @@
 radius = 27.074
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_troom"]
+resource_local_to_scene = true
 size = Vector2(90, 150)
 
 [sub_resource type="Resource" id="Resource_aynke"]

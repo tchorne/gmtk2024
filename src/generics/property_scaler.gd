@@ -19,5 +19,4 @@ func scale_property(value):
 			node.set(property, base_value * (scale_amount ** (value-1)))
 		else:
 			node.set(property, base_value * 1 + ((scale_amount-1) * (value-1)))
-			print(node.get(property))
 			

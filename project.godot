@@ -30,6 +30,7 @@ ScaleManager="*res://src/globals/scale_manager.gd"
 Player=""
 ScaleComponent=""
 GameCamera=""
+XPBar=""
 
 [input]
 

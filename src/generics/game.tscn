@@ -13,7 +13,7 @@
 [ext_resource type="Script" path="res://src/actor/sprite_scaler_component.gd" id="8_84a0c"]
 [ext_resource type="AudioStream" uid="uid://dbk5l4pd0fed5" path="res://assets/open/audio/coin_1.wav" id="12_aasno"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7lg1t"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_xk774"]
 resource_local_to_scene = true
 size = Vector2(2000, 2000)
 
@@ -57,7 +57,7 @@ bus = &"Sound"
 
 [node name="ScaleComponent" parent="Weapon" instance=ExtResource("6_bxch0")]
 scale_group = &"Weapon"
-select_rectangle = SubResource("RectangleShape2D_7lg1t")
+select_rectangle = SubResource("RectangleShape2D_xk774")
 property_scalers = Array[ExtResource("7_wb4li")]([SubResource("Resource_u2aqb"), SubResource("Resource_rdqw6")])
 
 [node name="SpriteScalerComponent" type="Node" parent="Weapon"]
