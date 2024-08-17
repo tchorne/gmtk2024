@@ -1,14 +1,50 @@
-[gd_scene load_steps=3 format=3 uid="uid://0ohahh5dri1q"]
+[gd_scene load_steps=9 format=3 uid="uid://0ohahh5dri1q"]
 
 [ext_resource type="Script" path="res://src/player/player.gd" id="1_2aa2h"]
 [ext_resource type="Texture2D" uid="uid://blw3d2vuo03y4" path="res://assets/open/circle.png" id="1_obvwi"]
+[ext_resource type="Texture2D" uid="uid://1k2n251gl18p" path="res://assets/open/triangle.png" id="3_dy0ql"]
+[ext_resource type="Script" path="res://src/weapon/weapon.gd" id="4_lov8y"]
+[ext_resource type="Script" path="res://src/weapon/bullet_spawner.gd" id="5_v7nsk"]
+[ext_resource type="Script" path="res://src/enemy/enemy.gd" id="6_r87kc"]
+[ext_resource type="Script" path="res://src/actor/hitbox.gd" id="7_fws7j"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f4n6s"]
+radius = 1041.2
 
 [node name="Game" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.25, 0.25)
 
 [node name="Player" type="Sprite2D" parent="."]
-position = Vector2(173, 222)
-scale = Vector2(0.016537, 0.016537)
+position = Vector2(-365, 95)
+scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_obvwi")
 script = ExtResource("1_2aa2h")
+
+[node name="Weapon" type="Sprite2D" parent="."]
+position = Vector2(-133, 94)
+scale = Vector2(0.106518, 0.106518)
+texture = ExtResource("3_dy0ql")
+script = ExtResource("4_lov8y")
+player_path = NodePath("../Player")
+
+[node name="BulletSpawner" type="Node2D" parent="Weapon"]
+script = ExtResource("5_v7nsk")
+
+[node name="Enemy" type="Sprite2D" parent="."]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(911, -41)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_obvwi")
+script = ExtResource("6_r87kc")
+
+[node name="Hitbox" type="Area2D" parent="Enemy"]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("7_fws7j")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Enemy/Hitbox"]
+shape = SubResource("CircleShape2D_f4n6s")
+
+[connection signal="hit" from="Enemy/Hitbox" to="Enemy" method="_on_hitbox_hit"]
