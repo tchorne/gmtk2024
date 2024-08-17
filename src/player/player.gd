@@ -39,10 +39,11 @@ func collect(collectible: Area2D):
 
 
 func _on_collect_radius_area_entered(area: Area2D) -> void:
-	area.moving_to_player = true
-	area.p1 = area.global_position
-	var vec = (global_position - area.global_position)
-	area.p2 = area.global_position + vec.rotated(PI) + vec * randf()
+	if not area.moving_to_player:
+		area.moving_to_player = true
+		area.p1 = area.global_position
+		var vec = (global_position - area.global_position)
+		area.p2 = area.global_position + vec.rotated(PI) + vec * randf()
 
 
 func _on_scale_component_scaled() -> void:
