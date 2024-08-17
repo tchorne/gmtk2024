@@ -1,13 +1,16 @@
 extends Sprite2D
 
+@onready var gem_counter: Node = %GemCounter
+@onready var scale_component: ScaleComponent = $ScaleComponent
+@onready var sound_hurt: AudioStreamPlayer = $SoundHurt
+
 var base_max_speed = 500
 var max_speed := 500.0
 var velocity := Vector2.ZERO
 var small_velocity := Vector2.ZERO
 
-@onready var scale_component: ScaleComponent = $ScaleComponent
-
-var gems := 0
+var max_health := 10
+var health := max_health
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -33,10 +36,15 @@ func _on_hitbox_hit(other: Area2D) -> void:
 	if other.has_method("collect"):
 		collect(other)
 		return
+	
+	max_health -= 1
+	sound_hurt.play()
+	if other.get_parent().has_method("die"): other.get_parent().die()
+	
 		
 func collect(collectible: Area2D):
 	collectible.collect()
-	gems += 1
+	gem_counter.add_xp(collectible.xp)
 	
 
 

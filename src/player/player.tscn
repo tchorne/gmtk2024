@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://joe1u1thk886"]
+[gd_scene load_steps=13 format=3 uid="uid://joe1u1thk886"]
 
 [ext_resource type="Texture2D" uid="uid://blw3d2vuo03y4" path="res://assets/open/circle.png" id="1_nh2n7"]
 [ext_resource type="Script" path="res://src/player/player.gd" id="2_wrws0"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://src/actor/sprite_scaler_component.gd" id="5_efiwq"]
 [ext_resource type="Script" path="res://src/generics/property_scaler.gd" id="5_rsdh5"]
 [ext_resource type="Script" path="res://src/player/camera_zoom_scaler.gd" id="6_dioiq"]
+[ext_resource type="AudioStream" uid="uid://cu7xecqupf57b" path="res://assets/open/audio/hurt.wav" id="8_gyk0o"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_wqio7"]
 radius = 6000.0
@@ -14,7 +15,7 @@ radius = 6000.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_jr66a"]
 radius = 1420.67
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_0akro"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fx28a"]
 resource_local_to_scene = true
 size = Vector2(3500, 3500)
 
@@ -49,7 +50,7 @@ shape = SubResource("CircleShape2D_jr66a")
 
 [node name="ScaleComponent" parent="." instance=ExtResource("4_b6bmu")]
 scale_group = &"Player"
-select_rectangle = SubResource("RectangleShape2D_0akro")
+select_rectangle = SubResource("RectangleShape2D_fx28a")
 property_scalers = Array[ExtResource("5_rsdh5")]([SubResource("Resource_kp2mt")])
 
 [node name="SpriteScalerComponent" type="Node" parent="."]
@@ -57,6 +58,9 @@ script = ExtResource("5_efiwq")
 
 [node name="CameraZoomScaler" type="Node" parent="."]
 script = ExtResource("6_dioiq")
+
+[node name="SoundHurt" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_gyk0o")
 
 [connection signal="area_entered" from="CollectRadius" to="." method="_on_collect_radius_area_entered"]
 [connection signal="area_entered" from="Hitbox" to="Hitbox" method="_on_area_entered"]

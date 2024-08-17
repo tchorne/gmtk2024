@@ -6,7 +6,7 @@ const GEM = preload("res://src/drops/gem.tscn")
 
 var speed := 200.0
 
-var gem_count := 1
+var gem_count := 1.0
 
 var max_health := 10.0
 var health := max_health
@@ -15,6 +15,7 @@ var player: Sprite2D
 
 func _ready():
 	player = get_tree().get_first_node_in_group("Player")
+	health = max_health
 	
 func _process(delta: float) -> void:
 	var dir = (player.global_position - global_position).normalized()
@@ -29,7 +30,7 @@ func _on_hitbox_hit(other: Area2D) -> void:
 		die()
 		
 func die():
-	for i in gem_count:
+	for i in int(round(gem_count)):
 		call_deferred("create_gem")
 		
 	killed.emit()

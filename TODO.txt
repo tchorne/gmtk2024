@@ -1,7 +1,12 @@
 TODO
 add gem bar to top
-player takes damage
 scaled enemies drop more
-
+fix gems becoming unselectable
+screen shake
+hit flash
+bullet particles
+bullet recoil
+enemy stop colliding
+enemy fade out shader
 
 

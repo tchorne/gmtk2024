@@ -3,6 +3,7 @@ extends Sprite2D
 @export_node_path("Sprite2D") var player_path
 
 @onready var player : Sprite2D = get_node(player_path)
+@onready var sound_fire: AudioStreamPlayer = $SoundFire
 
 var weapon_distance := 225.0
 
@@ -10,7 +11,7 @@ var mouse_pos : Vector2
 var camera_zoom = 0.25
 var cursor_position: Vector2
 
-var fire_rate := 1.0/5.0
+var fire_rate := 1.0/3.0
 var fire_charge := 0.0
 
 func _input(event: InputEvent) -> void:
@@ -33,6 +34,7 @@ func process_fire(delta):
 	while fire_charge > fire_rate:
 		fire_charge -= fire_rate
 		fire()
+		sound_fire.play()
 		
 func fire():
 	for c in get_children():
