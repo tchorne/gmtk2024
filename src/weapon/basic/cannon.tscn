@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://dh2fbwvq8642x"]
+
+[ext_resource type="PackedScene" uid="uid://dcth7j2ygnnw8" path="res://src/weapon/weapon.tscn" id="1_tu2bx"]
+[ext_resource type="Script" path="res://src/weapon/bullet_spawner.gd" id="2_jht51"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u41xv"]
+resource_local_to_scene = true
+size = Vector2(2000, 2000)
+
+[node name="Weapon" instance=ExtResource("1_tu2bx")]
+
+[node name="ScaleComponent" parent="." index="1"]
+select_rectangle = SubResource("RectangleShape2D_u41xv")
+
+[node name="BulletSpawner" type="Node2D" parent="." index="4"]
+script = ExtResource("2_jht51")

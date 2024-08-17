@@ -1,68 +1,23 @@
-[gd_scene load_steps=16 format=3 uid="uid://0ohahh5dri1q"]
+[gd_scene load_steps=7 format=3 uid="uid://0ohahh5dri1q"]
 
 [ext_resource type="PackedScene" uid="uid://joe1u1thk886" path="res://src/player/player.tscn" id="1_g1mxb"]
-[ext_resource type="Texture2D" uid="uid://1k2n251gl18p" path="res://assets/open/triangle.png" id="3_dy0ql"]
-[ext_resource type="Script" path="res://src/weapon/weapon.gd" id="4_lov8y"]
-[ext_resource type="AudioStream" uid="uid://bhqye3k1pocqs" path="res://assets/open/audio/fire_1.wav" id="5_ac0n6"]
-[ext_resource type="Script" path="res://src/weapon/bullet_spawner.gd" id="5_v7nsk"]
+[ext_resource type="PackedScene" uid="uid://dh2fbwvq8642x" path="res://src/weapon/basic/cannon.tscn" id="1_peqnw"]
 [ext_resource type="PackedScene" uid="uid://dvvdi7hnj6yu5" path="res://src/enemy/enemy.tscn" id="6_4rj2x"]
-[ext_resource type="PackedScene" uid="uid://dl166bonw3bbc" path="res://src/generics/scale_component.tscn" id="6_bxch0"]
 [ext_resource type="Script" path="res://src/ui/gem_counter/gem_counter.gd" id="7_ab60o"]
 [ext_resource type="Script" path="res://src/world/enemy_spawner.gd" id="7_ibclc"]
-[ext_resource type="Script" path="res://src/generics/property_scaler.gd" id="7_wb4li"]
-[ext_resource type="Script" path="res://src/actor/sprite_scaler_component.gd" id="8_84a0c"]
 [ext_resource type="AudioStream" uid="uid://dbk5l4pd0fed5" path="res://assets/open/audio/coin_1.wav" id="12_aasno"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_xk774"]
-resource_local_to_scene = true
-size = Vector2(2000, 2000)
-
-[sub_resource type="Resource" id="Resource_u2aqb"]
-script = ExtResource("7_wb4li")
-node_path = NodePath("..")
-property = &"fire_rate"
-scale_amount = 0.9
-exponential = true
-
-[sub_resource type="Resource" id="Resource_rdqw6"]
-script = ExtResource("7_wb4li")
-node_path = NodePath("..")
-property = &"weapon_distance"
-scale_amount = 1.2
-exponential = false
-
 [node name="Game" type="Node2D"]
+
+[node name="Weapons" type="Node2D" parent="."]
+
+[node name="Weapon" parent="Weapons" instance=ExtResource("1_peqnw")]
 
 [node name="Player" parent="." instance=ExtResource("1_g1mxb")]
 
 [node name="Camera2D" type="Camera2D" parent="Player" groups=["GameCamera"]]
 scale = Vector2(10, 10)
 zoom = Vector2(0.25, 0.25)
-
-[node name="Weapon" type="Sprite2D" parent="."]
-position = Vector2(-133, 94)
-scale = Vector2(0.106518, 0.106518)
-texture = ExtResource("3_dy0ql")
-script = ExtResource("4_lov8y")
-player_path = NodePath("../Player")
-
-[node name="BulletSpawner" type="Node2D" parent="Weapon"]
-script = ExtResource("5_v7nsk")
-
-[node name="SoundFire" type="AudioStreamPlayer" parent="Weapon"]
-stream = ExtResource("5_ac0n6")
-volume_db = -12.791
-pitch_scale = 2.25
-bus = &"Sound"
-
-[node name="ScaleComponent" parent="Weapon" instance=ExtResource("6_bxch0")]
-scale_group = &"Weapon"
-select_rectangle = SubResource("RectangleShape2D_xk774")
-property_scalers = Array[ExtResource("7_wb4li")]([SubResource("Resource_u2aqb"), SubResource("Resource_rdqw6")])
-
-[node name="SpriteScalerComponent" type="Node" parent="Weapon"]
-script = ExtResource("8_84a0c")
-scale_amount = 0.2
 
 [node name="Enemy" parent="." instance=ExtResource("6_4rj2x")]
 
@@ -80,6 +35,8 @@ script = ExtResource("7_ab60o")
 [node name="SoundGem" type="AudioStreamPlayer" parent="GemCounter"]
 stream = ExtResource("12_aasno")
 volume_db = -6.673
+pitch_scale = 1.49
+max_polyphony = 50
 bus = &"Sound"
 
 [connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]

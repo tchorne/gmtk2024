@@ -31,6 +31,7 @@ Player=""
 ScaleComponent=""
 GameCamera=""
 XPBar=""
+Enemy=""
 
 [input]
 

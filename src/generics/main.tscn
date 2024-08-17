@@ -1,10 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://c6wo6wsepace8"]
+[gd_scene load_steps=11 format=3 uid="uid://c6wo6wsepace8"]
 
 [ext_resource type="PackedScene" uid="uid://0ohahh5dri1q" path="res://src/generics/game.tscn" id="1_v1ojg"]
 [ext_resource type="Script" path="res://src/ui/scale_select/scale_select.gd" id="2_l6sj4"]
 [ext_resource type="Texture2D" uid="uid://6x22vwx86eux" path="res://assets/open/square_border.png" id="2_petyu"]
 [ext_resource type="Texture2D" uid="uid://faudsihedmgi" path="res://assets/open/square.png" id="3_37xa8"]
 [ext_resource type="Script" path="res://src/ui/gem_counter/xp_bar.gd" id="4_ndoum"]
+[ext_resource type="Theme" uid="uid://dxggbhxeui0kk" path="res://src/main.theme" id="5_3m3ki"]
+[ext_resource type="Script" path="res://src/weapon/weapon_panel.gd" id="5_vu70u"]
+[ext_resource type="Texture2D" uid="uid://1k2n251gl18p" path="res://assets/open/triangle.png" id="7_le7hh"]
+
+[sub_resource type="FontFile" id="FontFile_ppn4b"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+
+[sub_resource type="Theme" id="Theme_evags"]
+Label/fonts/font = SubResource("FontFile_ppn4b")
 
 [node name="Main" type="Node"]
 
@@ -55,6 +68,89 @@ texture_over = ExtResource("2_petyu")
 texture_progress = ExtResource("3_37xa8")
 script = ExtResource("4_ndoum")
 
+[node name="WeaponSelect" type="Control" parent="UI"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="UI/WeaponSelect"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.152941)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/WeaponSelect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -405.0
+offset_top = -159.0
+offset_right = 405.0
+offset_bottom = 159.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="UI/WeaponSelect/HBoxContainer"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+script = ExtResource("5_vu70u")
+
+[node name="TextureButton" type="TextureButton" parent="UI/WeaponSelect/HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="UI/WeaponSelect/HBoxContainer/Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("5_3m3ki")
+theme_override_constants/separation = 35
+
+[node name="Label" type="Label" parent="UI/WeaponSelect/HBoxContainer/Panel/VBoxContainer"]
+layout_mode = 2
+text = "Cannon"
+
+[node name="Control" type="Control" parent="UI/WeaponSelect/HBoxContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="UI/WeaponSelect/HBoxContainer/Panel/VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("7_le7hh")
+expand_mode = 2
+
+[node name="Label2" type="Label" parent="UI/WeaponSelect/HBoxContainer/Panel/VBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Fires towards the nearest enemy"
+autowrap_mode = 3
+
 [node name="ScaleSelect" type="Node" parent="."]
 script = ExtResource("2_l6sj4")
 
@@ -86,3 +182,4 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
+theme = SubResource("Theme_evags")

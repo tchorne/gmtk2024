@@ -9,7 +9,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_madv7"]
 radius = 27.074
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_troom"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1xojy"]
 resource_local_to_scene = true
 size = Vector2(90, 150)
 
@@ -37,7 +37,7 @@ texture = ExtResource("1_cisyj")
 
 [node name="ScaleComponent" parent="." instance=ExtResource("3_xuf6j")]
 scale_group = &"Gem"
-select_rectangle = SubResource("RectangleShape2D_troom")
+select_rectangle = SubResource("RectangleShape2D_1xojy")
 property_scalers = Array[ExtResource("4_tclrm")]([SubResource("Resource_aynke")])
 
 [node name="SpriteScalerComponent" type="Node" parent="."]

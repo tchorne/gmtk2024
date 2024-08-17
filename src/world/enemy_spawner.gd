@@ -17,7 +17,7 @@ func _process(delta: float) -> void:
 func get_camera_rect():
 	var pos = camera.global_position
 	var half_size = camera.get_viewport_rect().size * 0.5 / camera.zoom
-	return Rect2(pos-half_size, pos+half_size*2)
+	return Rect2(pos-half_size, half_size*2).abs()
 
 
 func _on_timer_timeout() -> void:

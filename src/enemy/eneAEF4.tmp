@@ -10,7 +10,7 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_f4n6s"]
 radius = 1041.2
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_880y8"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_of1py"]
 resource_local_to_scene = true
 size = Vector2(3500, 3500)
 
@@ -31,7 +31,8 @@ exponential = false
 [sub_resource type="CircleShape2D" id="CircleShape2D_nmsx4"]
 radius = 1384.38
 
-[node name="Enemy" type="Sprite2D" groups=["Enemy"]]
+[node name="Enemy" type="Sprite2D"]
+modulate = Color(1, 0, 0, 1)
 position = Vector2(911, -41)
 scale = Vector2(0.1, 0.1)
 texture = ExtResource("1_pt1vc")
@@ -47,7 +48,7 @@ shape = SubResource("CircleShape2D_f4n6s")
 
 [node name="ScaleComponent" parent="." instance=ExtResource("4_fp8wr")]
 scale_group = &"Enemy"
-select_rectangle = SubResource("RectangleShape2D_880y8")
+select_rectangle = SubResource("RectangleShape2D_of1py")
 property_scalers = Array[ExtResource("5_ab13k")]([SubResource("Resource_or5pn"), SubResource("Resource_bq1ey")])
 
 [node name="SpriteScalerComponent" type="Node" parent="."]
@@ -59,10 +60,5 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RepelZone"]
 shape = SubResource("CircleShape2D_nmsx4")
-
-[node name="Sprite2D" type="Sprite2D" parent="."]
-show_behind_parent = true
-scale = Vector2(1.1, 1.1)
-texture = ExtResource("1_pt1vc")
 
 [connection signal="hit" from="Hitbox" to="." method="_on_hitbox_hit"]

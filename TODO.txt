@@ -1,12 +1,7 @@
 TODO
-add gem bar to top
-scaled enemies drop more
-fix gems becoming unselectable
 screen shake
-hit flash
 bullet particles
 bullet recoil
-enemy stop colliding
 enemy fade out shader
-
-
+boss enemy
+proper mouse collision with area2ds

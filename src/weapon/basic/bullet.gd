@@ -14,3 +14,5 @@ func _on_area_entered(area: Area2D) -> void:
 	if area.has_method("on_hit"):
 		area.on_hit(self)
 		queue_free()
+	if area.has_method("push"):
+		area.push(Vector2.RIGHT.rotated(rotation)*5000)
