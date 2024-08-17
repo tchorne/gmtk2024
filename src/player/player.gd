@@ -5,7 +5,6 @@ var max_speed := 500.0
 var velocity := Vector2.ZERO
 var small_velocity := Vector2.ZERO
 
-var acceleration = 1.0
 @onready var scale_component: ScaleComponent = $ScaleComponent
 
 var gems := 0
@@ -22,9 +21,6 @@ func _process(delta: float) -> void:
 	
 	small_velocity -= small_velocity * delta * GameSpeed.speed * 4.0
 	
-	velocity += input_direction*delta*800* GameSpeed.speed * acceleration
-	velocity -= velocity.normalized()*delta*700 * GameSpeed.speed * acceleration
-	if velocity.length() > max_speed: velocity = velocity.normalized() * max_speed
 	if small_velocity.length() > 1.0:
 		small_velocity = small_velocity.normalized()
 		
@@ -38,8 +34,6 @@ func _on_hitbox_hit(other: Area2D) -> void:
 		collect(other)
 		return
 		
-	
-
 func collect(collectible: Area2D):
 	collectible.collect()
 	gems += 1
@@ -57,6 +51,4 @@ func _on_collect_radius_area_entered(area: Area2D) -> void:
 func _on_scale_component_scaled() -> void:
 	var before = (1 + 0.3*(scale_component.get_scale()-2))
 	var after = (1 + 0.3*(scale_component.get_scale()-1))
-	max_speed = base_max_speed * after
-	acceleration = after
 	$CameraZoomScaler.begin_scale(Vector2.ONE*0.25/before, Vector2.ONE*0.25/after)

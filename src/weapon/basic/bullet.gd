@@ -4,10 +4,6 @@ extends Area2D
 
 var speed := 2000.0
 var damage := 1.01
-
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	$SpriteScalerComponent.quick_scale()
 	
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:

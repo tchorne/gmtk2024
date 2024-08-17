@@ -1,6 +1,6 @@
 extends Node
 
-@onready var camera: Camera2D = $"../Camera2D"
+@onready var camera: Camera2D = $"../Player/Camera2D"
 
 var wave_size := 5
 var enemy_scene = preload("res://src/enemy/enemy.tscn")

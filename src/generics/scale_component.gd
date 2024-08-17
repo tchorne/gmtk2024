@@ -32,6 +32,7 @@ func _ready():
 	for scaler in property_scalers:
 		scaler.node = get_node(scaler.node_path)
 		scaler.get_base_value()
+		scaler.scale_property(get_scale())
 	
 func _process(_delta):
 	if not Engine.is_editor_hint():

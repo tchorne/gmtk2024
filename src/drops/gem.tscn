@@ -1,10 +1,23 @@
-[gd_scene load_steps=4 format=3 uid="uid://d2p1aud4bdpbl"]
+[gd_scene load_steps=9 format=3 uid="uid://d2p1aud4bdpbl"]
 
 [ext_resource type="Texture2D" uid="uid://faudsihedmgi" path="res://assets/open/square.png" id="1_cisyj"]
 [ext_resource type="Script" path="res://src/drops/gem.gd" id="2_iqsjx"]
+[ext_resource type="PackedScene" uid="uid://dl166bonw3bbc" path="res://src/generics/scale_component.tscn" id="3_xuf6j"]
+[ext_resource type="Script" path="res://src/generics/property_scaler.gd" id="4_tclrm"]
+[ext_resource type="Script" path="res://src/actor/sprite_scaler_component.gd" id="5_700uq"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_madv7"]
 radius = 27.074
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_troom"]
+size = Vector2(90, 150)
+
+[sub_resource type="Resource" id="Resource_aynke"]
+script = ExtResource("4_tclrm")
+node_path = NodePath("..")
+property = &"xp"
+scale_amount = 1.1
+exponential = false
 
 [node name="Gem" type="Area2D"]
 collision_layer = 4
@@ -20,3 +33,11 @@ rotation = 1.8326
 scale = Vector2(0.025, 0.025)
 skew = 1.0472
 texture = ExtResource("1_cisyj")
+
+[node name="ScaleComponent" parent="." instance=ExtResource("3_xuf6j")]
+scale_group = &"Gem"
+select_rectangle = SubResource("RectangleShape2D_troom")
+property_scalers = Array[ExtResource("4_tclrm")]([SubResource("Resource_aynke")])
+
+[node name="SpriteScalerComponent" type="Node" parent="."]
+script = ExtResource("5_700uq")

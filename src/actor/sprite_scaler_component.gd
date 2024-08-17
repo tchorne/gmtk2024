@@ -1,3 +1,4 @@
+class_name SpriteScalerComponent
 extends Node
 
 @export var scale_amount = 0.3
@@ -15,6 +16,7 @@ func _ready():
 		component = get_node("../ScaleComponent")
 		component.scaled.connect(scale)
 		base_scale = get_parent().scale
+		quick_scale()
 
 
 func scale():

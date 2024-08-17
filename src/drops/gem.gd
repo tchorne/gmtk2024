@@ -5,6 +5,9 @@ var t := 0.0
 var p1: Vector2
 var p2: Vector2
 
+var xp := 1.0
+
+
 @onready var player : Sprite2D = get_tree().get_first_node_in_group("Player")
 
 
