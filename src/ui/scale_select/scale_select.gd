@@ -1,7 +1,11 @@
 extends Node
 
+const SELECT_RECT = preload("res://src/ui/scale_select/select_rect.tscn")
+
 @onready var color_rect: ColorRect = $ColorRect
 @onready var select_rect: NinePatchRect = $SelectRect
+@onready var game_camera : Camera2D = get_tree().get_first_node_in_group("GameCamera")
+@onready var sub_viewport: SubViewport = $"../SubViewportContainer/SubViewport"
 
 var visible := false
 
@@ -39,7 +43,18 @@ func toggle_off():
 	pass
 
 func _on_scale_mouse_enter(scale: ScaleComponent):
-	pass
+	var components : Array[ScaleComponent] = []
+	components.assign(get_tree().get_nodes_in_group("ScaleComponent"))
+	var root: Window = get_tree().root
+	
+	#for s in components:
+		#if s.scale_group == scale.scale_group:
+	var s = scale
+	var box = SELECT_RECT.instantiate()
+	$SelectRects.add_child(box)
+	box.size = s.size * sub_viewport.canvas_transform.get_scale()
+	box.position = (sub_viewport.canvas_transform * s.position) - box.size/2
+	print(box.position)
 	
 func _on_scale_mouse_exit(_scale: ScaleComponent):
 	pass

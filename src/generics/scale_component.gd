@@ -3,16 +3,21 @@ extends Node
 
 @onready var collision_shape_2d: CollisionShape2D = $MouseDetector/CollisionShape2D
 @onready var mouse_detector: Area2D = $MouseDetector
+@onready var parent : Node2D = get_parent()
 
 @export var scale_group := &""
 @export var select_rectangle : RectangleShape2D = null
+
 
 signal mouse_enter
 signal mouse_exit
 
 var base_points : Array[Vector2] = []
+var size : Vector2
+var position  : Vector2
 
 func _ready():
+	position = parent.global_position
 	collision_shape_2d.shape = select_rectangle
 	base_points.append(Vector2(select_rectangle.size.x/2, select_rectangle.size.y/2))
 	base_points.append(Vector2(-select_rectangle.size.x/2, select_rectangle.size.y/2))
@@ -22,8 +27,8 @@ func _ready():
 	
 func _process(_delta):
 	if not Engine.is_editor_hint():
-		mouse_detector.global_position = get_parent().global_position
-		
+		mouse_detector.global_position = parent.global_position
+		position = parent.global_position
 		if base_points.size() > 0:
 			var angle = get_parent().rotation
 			var points : Array[Vector2] = []
@@ -41,7 +46,8 @@ func _process(_delta):
 				y1 = min(y1, point.y)
 				y2 = max(y2, point.y)
 			
-			select_rectangle.size = Vector2(x2-x1, y2-y1)
+			size = Vector2(x2-x1, y2-y1)
+			select_rectangle.size = size
 		
 		
 func _on_mouse_detector_mouse_entered() -> void:

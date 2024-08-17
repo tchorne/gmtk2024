@@ -28,6 +28,7 @@ window/stretch/aspect="expand"
 
 Player=""
 ScaleComponent=""
+GameCamera=""
 
 [input]
 
