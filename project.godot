@@ -18,11 +18,8 @@ config/icon="res://icon.svg"
 [autoload]
 
 GameSpeed="*res://src/globals/game_speed.gd"
-
-[display]
-
-window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+InputHandler="*res://src/globals/input_handler.gd"
+ScaleManager="*res://src/globals/scale_manager.gd"
 
 [global_group]
 

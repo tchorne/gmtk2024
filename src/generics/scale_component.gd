@@ -1,6 +1,8 @@
 class_name ScaleComponent
 extends Node
 
+signal scaled
+
 @onready var collision_shape_2d: CollisionShape2D = $MouseDetector/CollisionShape2D
 @onready var mouse_detector: Area2D = $MouseDetector
 @onready var parent : Node2D = get_parent()
@@ -31,10 +33,11 @@ func _process(_delta):
 		position = parent.global_position
 		if base_points.size() > 0:
 			var angle = get_parent().rotation
+			var scale = get_parent().scale
 			var points : Array[Vector2] = []
 			for point in base_points:
 				
-				points.append(point.rotated(angle))
+				points.append(point.rotated(angle)*scale)
 			
 			var x1 = points[0].x
 			var x2 = points[0].x
@@ -51,9 +54,15 @@ func _process(_delta):
 		
 		
 func _on_mouse_detector_mouse_entered() -> void:
+	print(scale_group)
 	mouse_enter.emit()
 
 
 func _on_mouse_detector_mouse_exited() -> void:
 	mouse_exit.emit()
-	
+
+func scale():
+	scaled.emit()
+
+func get_scale() -> int:
+	return ScaleManager.scales.get(scale_group, 1)

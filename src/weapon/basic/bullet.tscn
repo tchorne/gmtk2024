@@ -1,13 +1,14 @@
-[gd_scene load_steps=6 format=3 uid="uid://bu18goyegrhxt"]
+[gd_scene load_steps=7 format=3 uid="uid://bu18goyegrhxt"]
 
 [ext_resource type="Texture2D" uid="uid://faudsihedmgi" path="res://assets/open/square.png" id="1_khifb"]
 [ext_resource type="Script" path="res://src/weapon/basic/bullet.gd" id="1_ubi0p"]
 [ext_resource type="PackedScene" uid="uid://dl166bonw3bbc" path="res://src/generics/scale_component.tscn" id="3_0bhn3"]
+[ext_resource type="Script" path="res://src/actor/sprite_scaler_component.gd" id="4_htf4m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hg0ay"]
 size = Vector2(224, 35)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_asctt"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o8lau"]
 resource_local_to_scene = true
 size = Vector2(283.51, 93.685)
 
@@ -27,6 +28,10 @@ shape = SubResource("RectangleShape2D_hg0ay")
 
 [node name="ScaleComponent" parent="." instance=ExtResource("3_0bhn3")]
 scale_group = &"Bullet"
-select_rectangle = SubResource("RectangleShape2D_asctt")
+select_rectangle = SubResource("RectangleShape2D_o8lau")
+
+[node name="SpriteScalerComponent" type="Node" parent="."]
+script = ExtResource("4_htf4m")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="scaled" from="ScaleComponent" to="." method="_on_scale_component_scaled"]

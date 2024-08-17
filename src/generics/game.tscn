@@ -1,45 +1,18 @@
-[gd_scene load_steps=11 format=3 uid="uid://0ohahh5dri1q"]
+[gd_scene load_steps=7 format=3 uid="uid://0ohahh5dri1q"]
 
-[ext_resource type="Script" path="res://src/player/player.gd" id="1_2aa2h"]
-[ext_resource type="Texture2D" uid="uid://blw3d2vuo03y4" path="res://assets/open/circle.png" id="1_obvwi"]
+[ext_resource type="PackedScene" uid="uid://joe1u1thk886" path="res://src/player/player.tscn" id="1_g1mxb"]
 [ext_resource type="Texture2D" uid="uid://1k2n251gl18p" path="res://assets/open/triangle.png" id="3_dy0ql"]
 [ext_resource type="Script" path="res://src/weapon/weapon.gd" id="4_lov8y"]
 [ext_resource type="Script" path="res://src/weapon/bullet_spawner.gd" id="5_v7nsk"]
 [ext_resource type="PackedScene" uid="uid://dvvdi7hnj6yu5" path="res://src/enemy/enemy.tscn" id="6_4rj2x"]
-[ext_resource type="Script" path="res://src/actor/hitbox.gd" id="7_fws7j"]
 [ext_resource type="Script" path="res://src/world/enemy_spawner.gd" id="7_ibclc"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_wqio7"]
-radius = 6000.0
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_jr66a"]
-radius = 1420.67
 
 [node name="Game" type="Node2D"]
 
 [node name="Camera2D" type="Camera2D" parent="." groups=["GameCamera"]]
 zoom = Vector2(0.25, 0.25)
 
-[node name="Player" type="Sprite2D" parent="." groups=["Player"]]
-position = Vector2(-365, 95)
-scale = Vector2(0.1, 0.1)
-texture = ExtResource("1_obvwi")
-script = ExtResource("1_2aa2h")
-
-[node name="CollectRadius" type="Area2D" parent="Player"]
-collision_layer = 0
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/CollectRadius"]
-shape = SubResource("CircleShape2D_wqio7")
-
-[node name="Hitbox" type="Area2D" parent="Player"]
-collision_layer = 0
-collision_mask = 6
-script = ExtResource("7_fws7j")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Player/Hitbox"]
-shape = SubResource("CircleShape2D_jr66a")
+[node name="Player" parent="." instance=ExtResource("1_g1mxb")]
 
 [node name="Weapon" type="Sprite2D" parent="."]
 position = Vector2(-133, 94)
@@ -60,7 +33,4 @@ script = ExtResource("7_ibclc")
 wait_time = 5.0
 autostart = true
 
-[connection signal="area_entered" from="Player/CollectRadius" to="Player" method="_on_collect_radius_area_entered"]
-[connection signal="area_entered" from="Player/Hitbox" to="Player/Hitbox" method="_on_area_entered"]
-[connection signal="hit" from="Player/Hitbox" to="Player" method="_on_hitbox_hit"]
 [connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]

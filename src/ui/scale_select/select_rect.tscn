@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://30lkl6up67yi"]
+[gd_scene load_steps=3 format=3 uid="uid://30lkl6up67yi"]
 
 [ext_resource type="Texture2D" uid="uid://6x22vwx86eux" path="res://assets/open/square_border.png" id="1_4c02c"]
+[ext_resource type="Script" path="res://src/ui/scale_select/select_rect.gd" id="2_y5ykh"]
 
 [node name="SelectRect" type="NinePatchRect"]
 texture_filter = 1
@@ -11,3 +12,4 @@ patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
 patch_margin_bottom = 1
+script = ExtResource("2_y5ykh")

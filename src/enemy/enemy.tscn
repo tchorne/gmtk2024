@@ -1,11 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://dvvdi7hnj6yu5"]
+[gd_scene load_steps=8 format=3 uid="uid://dvvdi7hnj6yu5"]
 
 [ext_resource type="Texture2D" uid="uid://blw3d2vuo03y4" path="res://assets/open/circle.png" id="1_pt1vc"]
 [ext_resource type="Script" path="res://src/enemy/enemy.gd" id="2_asmrh"]
 [ext_resource type="Script" path="res://src/actor/hitbox.gd" id="3_tofrd"]
+[ext_resource type="PackedScene" uid="uid://dl166bonw3bbc" path="res://src/generics/scale_component.tscn" id="4_fp8wr"]
+[ext_resource type="Script" path="res://src/actor/sprite_scaler_component.gd" id="5_wpuwn"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f4n6s"]
 radius = 1041.2
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kyifj"]
+resource_local_to_scene = true
+size = Vector2(3500, 3500)
 
 [node name="Enemy" type="Sprite2D"]
 modulate = Color(1, 0, 0, 1)
@@ -21,5 +27,12 @@ script = ExtResource("3_tofrd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 shape = SubResource("CircleShape2D_f4n6s")
+
+[node name="ScaleComponent" parent="." instance=ExtResource("4_fp8wr")]
+scale_group = &"Enemy"
+select_rectangle = SubResource("RectangleShape2D_kyifj")
+
+[node name="SpriteScalerComponent" type="Node" parent="."]
+script = ExtResource("5_wpuwn")
 
 [connection signal="hit" from="Hitbox" to="." method="_on_hitbox_hit"]
