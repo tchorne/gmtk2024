@@ -24,6 +24,11 @@ GameSpeed="*res://src/globals/game_speed.gd"
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
 
+[global_group]
+
+Player=""
+ScaleComponent=""
+
 [input]
 
 left={
@@ -73,6 +78,8 @@ secondary={
 
 2d_physics/layer_1="player"
 2d_physics/layer_2="enemy"
+2d_physics/layer_3="gem"
+2d_physics/layer_8="scalecomponent"
 
 [rendering]
 

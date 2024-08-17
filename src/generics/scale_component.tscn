@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://dl166bonw3bbc"]
+
+[ext_resource type="Script" path="res://src/generics/scale_component.gd" id="1_1g4kb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dajvx"]
+
+[node name="ScaleComponent" type="Node" groups=["ScaleComponent"]]
+script = ExtResource("1_1g4kb")
+select_rectangle = SubResource("RectangleShape2D_dajvx")
+
+[node name="MouseDetector" type="Area2D" parent="."]
+z_index = 50
+collision_layer = 128
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="MouseDetector"]
+shape = SubResource("RectangleShape2D_dajvx")
+
+[connection signal="mouse_entered" from="MouseDetector" to="." method="_on_mouse_detector_mouse_entered"]
+[connection signal="mouse_exited" from="MouseDetector" to="." method="_on_mouse_detector_mouse_exited"]

@@ -1,0 +1,25 @@
+[gd_scene load_steps=5 format=3 uid="uid://dvvdi7hnj6yu5"]
+
+[ext_resource type="Texture2D" uid="uid://blw3d2vuo03y4" path="res://assets/open/circle.png" id="1_pt1vc"]
+[ext_resource type="Script" path="res://src/enemy/enemy.gd" id="2_asmrh"]
+[ext_resource type="Script" path="res://src/actor/hitbox.gd" id="3_tofrd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_f4n6s"]
+radius = 1041.2
+
+[node name="Enemy" type="Sprite2D"]
+modulate = Color(1, 0, 0, 1)
+position = Vector2(911, -41)
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_pt1vc")
+script = ExtResource("2_asmrh")
+
+[node name="Hitbox" type="Area2D" parent="."]
+collision_layer = 2
+collision_mask = 2
+script = ExtResource("3_tofrd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+shape = SubResource("CircleShape2D_f4n6s")
+
+[connection signal="hit" from="Hitbox" to="." method="_on_hitbox_hit"]
