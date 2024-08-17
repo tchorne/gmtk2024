@@ -86,4 +86,4 @@ func scale_current_group():
 	for s in components:
 		if s.scale_group == previous_group:
 			s.scale()
-		
+	toggle_off()

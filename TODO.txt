@@ -1,5 +1,4 @@
 TODO
-Fix jitter on Gem
 add scale to gem
 add gem bar to top
 player takes damage

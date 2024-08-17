@@ -10,6 +10,8 @@ signal scaled
 @export var scale_group := &""
 @export var select_rectangle : RectangleShape2D = null
 
+@export var property_scalers : Array[PropertyScaler]
+
 
 signal mouse_enter
 signal mouse_exit
@@ -26,6 +28,10 @@ func _ready():
 	base_points.append(Vector2(select_rectangle.size.x/2, -select_rectangle.size.y/2))
 	base_points.append(Vector2(-select_rectangle.size.x/2, -select_rectangle.size.y/2))
 	mouse_detector.global_position = get_parent().global_position
+	
+	for scaler in property_scalers:
+		scaler.node = get_node(scaler.node_path)
+		scaler.get_base_value()
 	
 func _process(_delta):
 	if not Engine.is_editor_hint():
@@ -54,7 +60,6 @@ func _process(_delta):
 		
 		
 func _on_mouse_detector_mouse_entered() -> void:
-	print(scale_group)
 	mouse_enter.emit()
 
 
@@ -62,6 +67,8 @@ func _on_mouse_detector_mouse_exited() -> void:
 	mouse_exit.emit()
 
 func scale():
+	for scaler in property_scalers:
+		scaler.scale_property(get_scale())
 	scaled.emit()
 
 func get_scale() -> int:

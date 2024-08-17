@@ -1,16 +1,24 @@
-[gd_scene load_steps=7 format=3 uid="uid://bu18goyegrhxt"]
+[gd_scene load_steps=9 format=3 uid="uid://bu18goyegrhxt"]
 
 [ext_resource type="Texture2D" uid="uid://faudsihedmgi" path="res://assets/open/square.png" id="1_khifb"]
 [ext_resource type="Script" path="res://src/weapon/basic/bullet.gd" id="1_ubi0p"]
 [ext_resource type="PackedScene" uid="uid://dl166bonw3bbc" path="res://src/generics/scale_component.tscn" id="3_0bhn3"]
 [ext_resource type="Script" path="res://src/actor/sprite_scaler_component.gd" id="4_htf4m"]
+[ext_resource type="Script" path="res://src/generics/property_scaler.gd" id="4_mqtg4"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hg0ay"]
 size = Vector2(224, 35)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_o8lau"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4c2fv"]
 resource_local_to_scene = true
 size = Vector2(283.51, 93.685)
+
+[sub_resource type="Resource" id="Resource_k5fme"]
+script = ExtResource("4_mqtg4")
+node_path = NodePath("..")
+property = &"damage"
+scale_amount = 1.3
+exponential = false
 
 [node name="Bullet" type="Area2D"]
 collision_layer = 0
@@ -28,7 +36,8 @@ shape = SubResource("RectangleShape2D_hg0ay")
 
 [node name="ScaleComponent" parent="." instance=ExtResource("3_0bhn3")]
 scale_group = &"Bullet"
-select_rectangle = SubResource("RectangleShape2D_o8lau")
+select_rectangle = SubResource("RectangleShape2D_4c2fv")
+property_scalers = Array[ExtResource("4_mqtg4")]([SubResource("Resource_k5fme")])
 
 [node name="SpriteScalerComponent" type="Node" parent="."]
 script = ExtResource("4_htf4m")

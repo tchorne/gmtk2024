@@ -3,6 +3,8 @@ extends Sprite2D
 var base_max_speed = 500
 var max_speed := 500.0
 var velocity := Vector2.ZERO
+var small_velocity := Vector2.ZERO
+
 var acceleration = 1.0
 @onready var scale_component: ScaleComponent = $ScaleComponent
 
@@ -15,12 +17,18 @@ func _ready() -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	
 	var input_direction = Input.get_vector("left", "right", "up", "down")
+	small_velocity += input_direction * delta * GameSpeed.speed * 8.0
+	
+	small_velocity -= small_velocity * delta * GameSpeed.speed * 4.0
+	
 	velocity += input_direction*delta*800* GameSpeed.speed * acceleration
 	velocity -= velocity.normalized()*delta*700 * GameSpeed.speed * acceleration
 	if velocity.length() > max_speed: velocity = velocity.normalized() * max_speed
-	
+	if small_velocity.length() > 1.0:
+		small_velocity = small_velocity.normalized()
+		
+	velocity = small_velocity * max_speed
 	position += velocity*delta*GameSpeed.speed
 	pass
 

@@ -26,7 +26,9 @@ func process_fire(delta):
 	if not Input.is_action_pressed('primary'):
 		fire_charge = 0.0
 		return
-	
+	if InputHandler.input_owner != InputHandler.GAME:
+		return
+		
 	fire_charge += delta
 	while fire_charge > fire_rate:
 		fire_charge -= fire_rate
