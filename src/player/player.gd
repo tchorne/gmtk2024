@@ -1,45 +1,65 @@
 extends Sprite2D
 
+signal killed
+signal hurt
+
+
 @onready var gem_counter: Node = %GemCounter
 @onready var scale_component: ScaleComponent = $ScaleComponent
 @onready var sound_hurt: AudioStreamPlayer = $SoundHurt
+@onready var camera: Camera2D = $Camera2D
 
 var base_max_speed = 500
 var max_speed := 500.0
 var velocity := Vector2.ZERO
 var small_velocity := Vector2.ZERO
-
-var max_health := 10
-var health := max_health
+var invincibility_time := 0.0
+var dead := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass # Replace with function body.
+	get_tree().root.get_node("Main").reset.connect(func():
+		dead = false)
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if dead: return
 	var input_direction = Input.get_vector("left", "right", "up", "down")
 	small_velocity += input_direction * delta * GameSpeed.speed * 8.0
 	
-	small_velocity -= small_velocity * delta * GameSpeed.speed * 4.0
+	small_velocity -= small_velocity * delta * GameSpeed.speed * 4.0 * (1.5 if invincibility_time > 0 else 1)
 	
 	if small_velocity.length() > 1.0:
 		small_velocity = small_velocity.normalized()
 		
 	velocity = small_velocity * max_speed
 	position += velocity*delta*GameSpeed.speed
-	pass
+	
+	if invincibility_time > 0:
+		invincibility_time -= delta * GameSpeed.speed
+	
 
 
 func _on_hitbox_hit(other: Node, damage) -> void:
+	if dead: return
+	
 	if other.has_method("collect"):
 		collect(other)
 		return
 	
-	max_health -= damage
+	if invincibility_time > 0:
+		return
+		
+	camera.shake(30, 0.6)
+	invincibility_time = 1.0
+	ScaleManager.scales[&"Health"] -= 1
+	hurt.emit()
+	if ScaleManager.scales[&"Health"] <= 0:
+		killed.emit()
+		dead = true
 	sound_hurt.play()
-	if other.get_parent().has_method("die"): other.get_parent().die()
+	#if other.get_parent().has_method("die"): other.get_parent().die()
 	
 		
 func collect(collectible: Node):

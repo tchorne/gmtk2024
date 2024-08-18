@@ -1,6 +1,7 @@
 extends TextureProgressBar
 
 @onready var subtract_bar: TextureProgressBar = $SubtractBar
+@onready var label: Label = $Label
 
 var t := 0.0
 var max: float
@@ -19,6 +20,7 @@ func update(xp: float, new_max: float):
 		tween.kill()
 	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	tween.tween_property(self, "value", xp / max, 0.3)
+	label.text = str(int(xp))
 
 func update_cost(xp):
 	subtract_bar.value = xp / max

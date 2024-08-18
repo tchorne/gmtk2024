@@ -9,7 +9,7 @@ signal scaled
 @export var ui := false
 @export var scale_group := &""
 @export var select_rectangle : RectangleShape2D = null
-
+@export var oneshot := false
 @export var property_scalers : Array[PropertyScaler]
 
 

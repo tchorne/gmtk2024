@@ -1,7 +1,4 @@
 TODO
-screen shake
-death screen
-health bar
+health bar (scaling restores 1)
 space bar icon
 glowing when growth available
-invincibility frames

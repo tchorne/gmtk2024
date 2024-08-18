@@ -1,3 +1,4 @@
+class_name Enemy
 extends Sprite2D
 
 signal killed
@@ -39,6 +40,9 @@ var hitflash_duration = 0.0
 
 
 func _ready():
+	get_tree().root.get_node("Main").reset.connect(
+		func(): queue_free())
+	
 	camera = get_tree().get_first_node_in_group("GameCamera")
 	player = get_tree().get_first_node_in_group("Player")
 	health = max_health
@@ -63,7 +67,7 @@ func _process(delta: float) -> void:
 	if global_position.x > cam_rect.end.x: global_position.x -= cam_rect.size.x
 	if global_position.y > cam_rect.end.y: global_position.y -= cam_rect.size.y
 	
-	velocity += dir * 5.0 * delta
+	velocity += dir * 5.0 * delta * GameSpeed.speed
 	velocity -= velocity * delta * GameSpeed.speed * 2.0
 	
 	if velocity.length_squared() > 1.0: 
@@ -74,7 +78,7 @@ func _process(delta: float) -> void:
 		if hitflash_duration < 0:
 			self_modulate = base_color
 	
-	translate(velocity * speed * GameSpeed.speed * delta)
+	translate(velocity * speed * GameSpeed.speed * delta * (1.3 ** boss_tier))
 	
 	for other in repel_zone.get_overlapping_areas():
 		if other.get_parent() == self: continue
@@ -83,7 +87,7 @@ func _process(delta: float) -> void:
 			other.get_parent().push(d.normalized() * delta * 10.0)
 
 func push(dir: Vector2):
-	velocity += dir
+	velocity += dir / (boss_tier+1)
 
 func _on_hitbox_hit(other: Node, damage) -> void:
 	health -= damage
@@ -117,4 +121,5 @@ func create_fadeout():
 	var f = ENEMY_FADEOUT.instantiate()
 	get_parent().add_child(f)
 	f.global_position = global_position
+	f.scale = scale
 	

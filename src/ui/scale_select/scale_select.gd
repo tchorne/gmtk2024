@@ -57,7 +57,14 @@ func toggle_off():
 	switch_group(&"")
 	pass
 
-func switch_group(group: StringName):
+func can_get(group : StringName):
+	var cost = ScaleManager.get_cost(group)
+	if group == &"": return false
+	if cost > gem_counter.current_xp: return false
+	if ScaleManager.scales.get(group, 0) >= ScaleManager.indexed_groups[group].max_level: return false
+	return true
+	
+func switch_group(group: StringName, oneshot = false):
 	if group == previous_group: return
 	previous_group = group
 	
@@ -74,9 +81,12 @@ func switch_group(group: StringName):
 	var cost = ScaleManager.get_cost(group)
 	xp_bar.update_cost(cost)
 	
-	var col = Color("00b303") if cost <= gem_counter.current_xp else Color.RED
+	var can_get = can_get(group)
+	
+	var col = (Color(1, 0.878, 0.27) if oneshot else Color("00b303")) if can_get else Color.RED
 	
 	for s in components:
+		if oneshot and s != previous_component: continue
 		if s.scale_group == group:
 			var vp = get_viewport() if s.ui else sub_viewport
 			var box = SELECT_RECT.instantiate()
@@ -106,17 +116,21 @@ func _on_scale_mouse_exit(scale: ScaleComponent):
 func scale_current_group():
 	if previous_group != &"":
 		var cost = ScaleManager.get_cost(previous_group)
-		if cost > gem_counter.current_xp:
+		if not can_get(previous_group):
 			$blip_2.pitch_scale = 0.5	
 			$blip_2.play()
 		else:
 			gem_counter.add_xp(-cost)
-			ScaleManager.increase_scale(previous_group)
+			if not previous_component.oneshot:
+				ScaleManager.increase_scale(previous_group)
 			var components : Array[ScaleComponent] = []
 			components.assign(get_tree().get_nodes_in_group("ScaleComponent"))
-			for s in components:
-				if s.scale_group == previous_group:
-					s.scale()
+			if previous_component.oneshot:
+				previous_component.scale()
+			else:
+				for s in components:
+					if s.scale_group == previous_group:
+						s.scale()
 			$blip_2.pitch_scale = 1.0	
 			$blip_2.play()
 		
@@ -152,5 +166,5 @@ func _physics_process(_delta: float) -> void:
 			switch_group(&"")
 		else:
 			previous_component = result[0]['collider'].get_parent()
-			switch_group(previous_component.scale_group)
+			switch_group(previous_component.scale_group, previous_component.oneshot)
 			

@@ -1,5 +1,6 @@
-[gd_scene load_steps=17 format=3 uid="uid://c6wo6wsepace8"]
+[gd_scene load_steps=23 format=3 uid="uid://c6wo6wsepace8"]
 
+[ext_resource type="Script" path="res://src/generics/main.gd" id="1_8dl88"]
 [ext_resource type="PackedScene" uid="uid://0ohahh5dri1q" path="res://src/generics/game.tscn" id="1_v1ojg"]
 [ext_resource type="Script" path="res://src/ui/scale_select/scale_select.gd" id="2_l6sj4"]
 [ext_resource type="Texture2D" uid="uid://6x22vwx86eux" path="res://assets/open/square_border.png" id="2_petyu"]
@@ -7,10 +8,15 @@
 [ext_resource type="Script" path="res://src/ui/gem_counter/xp_bar.gd" id="4_ndoum"]
 [ext_resource type="Script" path="res://src/weapon/weapon_select.gd" id="5_0l4cg"]
 [ext_resource type="PackedScene" uid="uid://dl166bonw3bbc" path="res://src/generics/scale_component.tscn" id="5_lquf2"]
+[ext_resource type="FontFile" uid="uid://dfd6qu4435qgh" path="res://assets/ignore/fonts/TerminusTTFWindows-Bold-4.49.3.ttf" id="6_fin31"]
 [ext_resource type="Script" path="res://src/generics/property_scaler.gd" id="6_ixubh"]
+[ext_resource type="Theme" uid="uid://dxggbhxeui0kk" path="res://src/main.theme" id="8_hkhv0"]
 [ext_resource type="AudioStream" uid="uid://cwhn3cmhwxfms" path="res://assets/open/audio/blip_1.wav" id="8_v2thy"]
+[ext_resource type="Script" path="res://src/ui/menus/game_over.gd" id="9_mk0vq"]
 [ext_resource type="AudioStream" uid="uid://8a6idolagdu3" path="res://assets/open/audio/scale_up.wav" id="9_yeiha"]
 [ext_resource type="AudioStream" uid="uid://bbge8uwqeg0n2" path="res://assets/ignore/music/30s.wav" id="10_3vtfo"]
+[ext_resource type="Script" path="res://src/player/health.gd" id="10_y7820"]
+[ext_resource type="Texture2D" uid="uid://dmjsc3uscah57" path="res://assets/open/redsquare.png" id="11_nvlss"]
 [ext_resource type="Script" path="res://src/generics/music.gd" id="11_vwy6s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c1am2"]
@@ -34,6 +40,7 @@ cache/0/16/0/scale = 1.0
 Label/fonts/font = SubResource("FontFile_ppn4b")
 
 [node name="Main" type="Node"]
+script = ExtResource("1_8dl88")
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
 anchors_preset = 15
@@ -89,6 +96,17 @@ texture_over = ExtResource("2_petyu")
 texture_progress = ExtResource("3_37xa8")
 script = ExtResource("4_ndoum")
 
+[node name="Label" type="Label" parent="UI/Top/XPBar"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 3.0
+offset_right = 60.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.133196, 0.133196, 0.133196, 1)
+theme_override_fonts/font = ExtResource("6_fin31")
+theme_override_font_sizes/font_size = 36
+text = "0"
+
 [node name="SubtractBar" type="TextureProgressBar" parent="UI/Top/XPBar"]
 texture_filter = 1
 layout_mode = 0
@@ -102,6 +120,7 @@ stretch_margin_top = 4
 stretch_margin_right = 4
 stretch_margin_bottom = 4
 texture_progress = ExtResource("3_37xa8")
+metadata/_edit_lock_ = true
 
 [node name="Center" type="Control" parent="UI/Top/XPBar"]
 layout_mode = 1
@@ -156,6 +175,86 @@ grow_horizontal = 2
 grow_vertical = 2
 alignment = 1
 
+[node name="GameOver" type="Control" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_mk0vq")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="UI/GameOver"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.152941)
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="UI/GameOver"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+theme = ExtResource("8_hkhv0")
+text = "ASD"
+
+[node name="Button" type="Button" parent="UI/GameOver"]
+layout_mode = 0
+offset_left = 669.0
+offset_top = 409.0
+offset_right = 966.0
+offset_bottom = 554.0
+theme = ExtResource("8_hkhv0")
+theme_override_font_sizes/font_size = 40
+text = "Revive at Wave 1"
+autowrap_mode = 3
+
+[node name="Health" type="Control" parent="UI" groups=["Health"]]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("10_y7820")
+
+[node name="Bar" type="TextureProgressBar" parent="UI/Health"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 239.0
+offset_bottom = 48.0
+max_value = 1.0
+step = 0.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_under = ExtResource("2_petyu")
+texture_over = ExtResource("2_petyu")
+texture_progress = ExtResource("11_nvlss")
+
+[node name="Control" type="Control" parent="UI/Health/Bar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScaleComponent" parent="UI/Health/Bar/Control" instance=ExtResource("5_lquf2")]
+ui = true
+scale_group = &"Health"
+select_rectangle = SubResource("RectangleShape2D_c1am2")
+oneshot = true
+
 [node name="ScaleSelect" type="Node" parent="."]
 script = ExtResource("2_l6sj4")
 
@@ -168,6 +267,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 color = Color(0, 0, 0, 0.152941)
+metadata/_edit_lock_ = true
 
 [node name="SelectRect" type="NinePatchRect" parent="ScaleSelect"]
 visible = false
@@ -179,6 +279,7 @@ patch_margin_left = 1
 patch_margin_top = 1
 patch_margin_right = 1
 patch_margin_bottom = 1
+metadata/_edit_lock_ = true
 
 [node name="SelectRects" type="Control" parent="ScaleSelect"]
 layout_mode = 3
@@ -189,6 +290,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 theme = SubResource("Theme_evags")
+metadata/_edit_lock_ = true
 
 [node name="blip_1" type="AudioStreamPlayer" parent="ScaleSelect"]
 stream = ExtResource("8_v2thy")
@@ -201,4 +303,8 @@ stream = ExtResource("10_3vtfo")
 autoplay = true
 script = ExtResource("11_vwy6s")
 
+[connection signal="reset" from="." to="." method="_on_reset"]
 [connection signal="scaled" from="UI/Top/XPBar/Center/ScaleComponent" to="UI/Top/XPBar" method="_on_scale_component_scaled"]
+[connection signal="pressed" from="UI/GameOver/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="UI/GameOver/Button" to="UI/GameOver" method="_on_button_pressed"]
+[connection signal="scaled" from="UI/Health/Bar/Control/ScaleComponent" to="UI/Health" method="_on_scale_component_scaled"]

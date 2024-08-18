@@ -2,6 +2,10 @@ extends Node
 
 @onready var camera: Camera2D = $"../Player/Camera2D"
 
+const WAVE_TIME = 7.0
+
+var time_to_next_wave := 0.0
+
 var wave_size := 5
 var enemy_scene = preload("res://src/enemy/enemy.tscn")
 
@@ -16,9 +20,45 @@ const WAVES = [
 	[20, 5, 0, 0, 0, 0],
 	[0, 8, 2, 0, 0, 0],
 	# 1 min
+	[0, 15, 0, 0, 0, 0],
+	[0, 15, 5, 0, 0, 0],
+	[0, 0, 8, 1, 0, 0],
+	[0, 0, 4, 0, 0, 0],
+	[0, 0, 16, 2, 0, 0],
+	[0, 0, 0, 2, 0, 0],
+	# 2 min
+	[0, 0, 0, 6, 0, 0],
+	[0, 0, 25, 0, 1, 0],
+	[100, 0, 8, 1, 0, 0],
+	[0, 0, 0, 2, 0, 0],
+	[0, 0, 16, 2, 2, 0],
+	[0, 0, 0, 2, 0, 0],
+	# 3 min
+	[0, 0, 0, 0, 0, 1],
+	[0, 0, 0, 0, 8, 0],
+	[0, 0, 50, 0, 0, 0],
+	[0, 0, 0, 0, 0, 2],
+	[0, 0, 0, 0, 12, 0],
+	[0, 0, 30, 20, 0, 0],
+	[0, 0, 0, 0, 15, 5],
+	[0, 0, 0, 0, 0, 0],
+	
 ]
 
 
+func _ready():
+	get_tree().root.get_node("Main").reset.connect(reset)
+
+func _process(delta: float) -> void:
+	time_to_next_wave -= delta * GameSpeed.speed
+	if time_to_next_wave < 0.0:
+		time_to_next_wave = WAVE_TIME
+		_on_timer_timeout()
+
+func reset():
+	wave_index = 0
+	time_to_next_wave = 0.0
+	
 func get_camera_rect():
 	var pos = camera.global_position
 	var half_size = camera.get_viewport_rect().size * 0.5 / camera.zoom
