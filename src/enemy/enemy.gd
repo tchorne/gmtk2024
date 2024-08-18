@@ -6,10 +6,20 @@ const GEM = preload("res://src/drops/gem.tscn")
 const HITFLASH_DURATION = 0.1
 
 @onready var repel_zone: Area2D = $RepelZone
+@onready var boss_rim: Sprite2D = $BossRim
 
 var base_color = Color("ff0000")
 
+
 var boss_tier := 0
+var boss_colors = [
+	Color(1, 1, 1, 0),
+	Color(0.373, 0.69, 0.784),
+	Color(0.93, 0.912, 0.4),
+	Color(0.86, 0.494, 0.103),
+	Color(0.59, 0, 0),
+	Color(0.525, 0.13, 1)
+]
 
 var speed := 200.0
 
@@ -30,7 +40,9 @@ func _ready():
 	self_modulate = base_color
 	
 	for i in boss_tier:
-		health *= 2
+		health *= 4
+	boss_rim.self_modulate = boss_colors[boss_tier]
+	
 	
 func _process(delta: float) -> void:
 	var dir = (player.global_position - global_position).normalized()
@@ -55,8 +67,8 @@ func _process(delta: float) -> void:
 func push(dir: Vector2):
 	velocity += dir
 
-func _on_hitbox_hit(other: Area2D) -> void:
-	health -= other.damage
+func _on_hitbox_hit(other: Node, damage) -> void:
+	health -= damage
 	hitflash_duration = HITFLASH_DURATION
 	self_modulate = Color.WHITE
 	if health <= 0:

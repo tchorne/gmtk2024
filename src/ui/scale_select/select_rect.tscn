@@ -1,15 +1,61 @@
-[gd_scene load_steps=3 format=3 uid="uid://30lkl6up67yi"]
+[gd_scene load_steps=6 format=3 uid="uid://30lkl6up67yi"]
 
 [ext_resource type="Texture2D" uid="uid://6x22vwx86eux" path="res://assets/open/square_border.png" id="1_4c02c"]
 [ext_resource type="Script" path="res://src/ui/scale_select/select_rect.gd" id="2_y5ykh"]
+[ext_resource type="FontFile" uid="uid://dfd6qu4435qgh" path="res://assets/ignore/fonts/TerminusTTFWindows-Bold-4.49.3.ttf" id="3_y407k"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_dyu12"]
+outline_size = 5
+outline_color = Color(0.39048, 0.503375, 0.505548, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_a512m"]
+outline_size = 5
+outline_color = Color(0.39048, 0.503375, 0.505548, 1)
 
 [node name="SelectRect" type="NinePatchRect"]
+modulate = Color(0, 0.7, 0.0116667, 1)
 texture_filter = 1
-offset_right = 40.0
-offset_bottom = 40.0
+offset_right = 4.0
+offset_bottom = 4.0
 texture = ExtResource("1_4c02c")
 patch_margin_left = 2
 patch_margin_top = 2
 patch_margin_right = 2
 patch_margin_bottom = 2
 script = ExtResource("2_y5ykh")
+
+[node name="group" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 1
+offset_left = -58.0
+offset_top = -12.0
+offset_right = -4.0
+offset_bottom = 11.0
+theme_override_fonts/font = ExtResource("3_y407k")
+theme_override_font_sizes/font_size = 18
+text = "Bullet"
+label_settings = SubResource("LabelSettings_dyu12")
+horizontal_alignment = 2
+visible_characters = 0
+visible_ratio = 0.0
+
+[node name="desc" type="Label" parent="."]
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 75.0
+offset_bottom = 26.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("3_y407k")
+theme_override_font_sizes/font_size = 18
+text = "Damage ↑"
+label_settings = SubResource("LabelSettings_a512m")
+visible_characters = 0
+visible_ratio = 0.0

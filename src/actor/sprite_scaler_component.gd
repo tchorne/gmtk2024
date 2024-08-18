@@ -2,18 +2,20 @@ class_name SpriteScalerComponent
 extends Node
 
 @export var scale_amount = 0.3
+@export var scale_rate := 1.0
+@export var component : ScaleComponent
 
 var animating := false
 
-var component : ScaleComponent = null
 var base_scale := Vector2.ONE
 var initial_scale := Vector2.ONE
 var new_scale := Vector2.ONE
 var t := 0.0
 
 func _ready():
-	if get_parent().has_node("ScaleComponent"):
+	if not component and get_parent().has_node("ScaleComponent"):
 		component = get_node("../ScaleComponent")
+	if component:
 		component.scaled.connect(scale)
 		base_scale = get_parent().scale
 		quick_scale()
@@ -28,7 +30,7 @@ func scale():
 
 func _process(delta: float) -> void:
 	if animating:
-		t += delta * 1.5
+		t += delta * 1.5 * scale_rate
 		if t >= 1.0:
 			t = 1.0
 			animating = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://c6wo6wsepace8"]
+[gd_scene load_steps=17 format=3 uid="uid://c6wo6wsepace8"]
 
 [ext_resource type="PackedScene" uid="uid://0ohahh5dri1q" path="res://src/generics/game.tscn" id="1_v1ojg"]
 [ext_resource type="Script" path="res://src/ui/scale_select/scale_select.gd" id="2_l6sj4"]
@@ -8,21 +8,16 @@
 [ext_resource type="Script" path="res://src/weapon/weapon_select.gd" id="5_0l4cg"]
 [ext_resource type="PackedScene" uid="uid://dl166bonw3bbc" path="res://src/generics/scale_component.tscn" id="5_lquf2"]
 [ext_resource type="PackedScene" uid="uid://dq1tvg6x1k6op" path="res://src/weapon/weapon_panel.tscn" id="6_10ymm"]
-[ext_resource type="Script" path="res://src/generics/property_scaler.gd" id="6_ixubh"]
 [ext_resource type="AudioStream" uid="uid://cwhn3cmhwxfms" path="res://assets/open/audio/blip_1.wav" id="8_v2thy"]
 [ext_resource type="AudioStream" uid="uid://8a6idolagdu3" path="res://assets/open/audio/scale_up.wav" id="9_yeiha"]
 [ext_resource type="AudioStream" uid="uid://bbge8uwqeg0n2" path="res://assets/ignore/music/30s.wav" id="10_3vtfo"]
 [ext_resource type="Script" path="res://src/generics/music.gd" id="11_vwy6s"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c1am2"]
-size = Vector2(229, 40)
+size = Vector2(300, 200)
 
-[sub_resource type="Resource" id="Resource_ajsht"]
-script = ExtResource("6_ixubh")
-node_path = NodePath("../..")
-property = &"x_scale"
-scale_amount = 1.2
-exponential = true
+[sub_resource type="CircleShape2D" id="CircleShape2D_kkpd5"]
+radius = 69.0072
 
 [sub_resource type="FontFile" id="FontFile_ppn4b"]
 cache/0/16/0/ascent = 0.0
@@ -37,6 +32,7 @@ Label/fonts/font = SubResource("FontFile_ppn4b")
 [node name="Main" type="Node"]
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+visible = false
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -48,9 +44,10 @@ stretch = true
 handle_input_locally = false
 physics_object_picking = true
 size = Vector2i(1152, 648)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="Game" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_v1ojg")]
+visible = false
 
 [node name="UI" type="Control" parent="."]
 layout_mode = 3
@@ -104,21 +101,9 @@ stretch_margin_right = 4
 stretch_margin_bottom = 4
 texture_progress = ExtResource("3_37xa8")
 
-[node name="Center" type="Control" parent="UI/Top/XPBar"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="ScaleComponent" parent="UI/Top/XPBar/Center" instance=ExtResource("5_lquf2")]
-ui = true
+[node name="ScaleComponent" parent="UI/Top/XPBar" instance=ExtResource("5_lquf2")]
 scale_group = &"XPBar"
 select_rectangle = SubResource("RectangleShape2D_c1am2")
-property_scalers = Array[ExtResource("6_ixubh")]([SubResource("Resource_ajsht")])
 
 [node name="WeaponSelect" type="Control" parent="UI" groups=["WeaponSelect"]]
 texture_filter = 1
@@ -157,6 +142,12 @@ grow_vertical = 2
 
 [node name="WeaponPanel" parent="UI/WeaponSelect/HBoxContainer" instance=ExtResource("6_10ymm")]
 layout_mode = 2
+
+[node name="Area2D" type="Area2D" parent="UI"]
+position = Vector2(165, 119)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="UI/Area2D"]
+shape = SubResource("CircleShape2D_kkpd5")
 
 [node name="ScaleSelect" type="Node" parent="."]
 script = ExtResource("2_l6sj4")
@@ -202,5 +193,3 @@ stream = ExtResource("9_yeiha")
 stream = ExtResource("10_3vtfo")
 autoplay = true
 script = ExtResource("11_vwy6s")
-
-[connection signal="scaled" from="UI/Top/XPBar/Center/ScaleComponent" to="UI/Top/XPBar" method="_on_scale_component_scaled"]

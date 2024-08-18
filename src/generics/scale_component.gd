@@ -5,8 +5,8 @@ signal scaled
 
 @onready var collision_shape_2d: CollisionShape2D = $MouseDetector/CollisionShape2D
 @onready var mouse_detector: Area2D = $MouseDetector
-@onready var parent : Node2D = get_parent()
-
+@onready var parent : Node = get_parent()
+@export var ui := false
 @export var scale_group := &""
 @export var select_rectangle : RectangleShape2D = null
 
@@ -39,7 +39,7 @@ func _process(_delta):
 		mouse_detector.global_position = parent.global_position
 		position = parent.global_position
 		if base_points.size() > 0:
-			var angle = get_parent().rotation
+			var angle = get_parent().global_rotation if get_parent().get("global_rotation") else 0
 			var scale = get_parent().scale
 			var points : Array[Vector2] = []
 			for point in base_points:
@@ -62,7 +62,6 @@ func _process(_delta):
 		
 func _on_mouse_detector_mouse_entered() -> void:
 	mouse_enter.emit()
-
 
 func _on_mouse_detector_mouse_exited() -> void:
 	mouse_exit.emit()

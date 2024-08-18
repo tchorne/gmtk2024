@@ -13,9 +13,9 @@
 radius = 6000.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_jr66a"]
-radius = 1420.67
+radius = 800.25
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fx28a"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e7acx"]
 resource_local_to_scene = true
 size = Vector2(3500, 3500)
 
@@ -50,7 +50,7 @@ shape = SubResource("CircleShape2D_jr66a")
 
 [node name="ScaleComponent" parent="." instance=ExtResource("4_b6bmu")]
 scale_group = &"Player"
-select_rectangle = SubResource("RectangleShape2D_fx28a")
+select_rectangle = SubResource("RectangleShape2D_e7acx")
 property_scalers = Array[ExtResource("5_rsdh5")]([SubResource("Resource_kp2mt")])
 
 [node name="SpriteScalerComponent" type="Node" parent="."]

@@ -32,17 +32,17 @@ func _process(delta: float) -> void:
 	pass
 
 
-func _on_hitbox_hit(other: Area2D) -> void:
+func _on_hitbox_hit(other: Node, damage) -> void:
 	if other.has_method("collect"):
 		collect(other)
 		return
 	
-	max_health -= 1
+	max_health -= damage
 	sound_hurt.play()
 	if other.get_parent().has_method("die"): other.get_parent().die()
 	
 		
-func collect(collectible: Area2D):
+func collect(collectible: Node):
 	collectible.collect()
 	gem_counter.add_xp(collectible.xp)
 	

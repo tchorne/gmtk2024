@@ -20,7 +20,7 @@ exponential = true
 script = ExtResource("3_11v54")
 node_path = NodePath("..")
 property = &"weapon_distance"
-scale_amount = 1.5
+scale_amount = 1.3
 exponential = false
 
 [node name="Cannon" instance=ExtResource("1_tu2bx")]

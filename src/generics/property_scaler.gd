@@ -18,5 +18,5 @@ func scale_property(value):
 		if exponential:
 			node.set(property, base_value * (scale_amount ** (value-1)))
 		else:
-			node.set(property, base_value * 1 + ((scale_amount-1) * (value-1)))
+			node.set(property, base_value * (1 + ((scale_amount-1) * (value-1))))
 			

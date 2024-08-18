@@ -3,5 +3,5 @@ screen shake
 bullet particles
 bullet recoil
 enemy fade out shader
-boss enemy
+boss enemy drop weapon
 proper mouse collision with area2ds

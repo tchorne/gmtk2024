@@ -1,0 +1,76 @@
+[gd_scene load_steps=12 format=3 uid="uid://dgm268iuygr10"]
+
+[ext_resource type="Script" path="res://src/weapon/basic/bullet_explode.gd" id="1_2uiwh"]
+[ext_resource type="PackedScene" uid="uid://dl166bonw3bbc" path="res://src/generics/scale_component.tscn" id="1_6kwok"]
+[ext_resource type="Script" path="res://src/generics/property_scaler.gd" id="3_unhw4"]
+[ext_resource type="Script" path="res://src/actor/sprite_scaler_component.gd" id="4_t1a4t"]
+
+[sub_resource type="Curve" id="Curve_t58ay"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_jnppm"]
+curve = SubResource("Curve_t58ay")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f1sfr"]
+particle_flag_disable_z = true
+spread = 19.909
+initial_velocity_min = 50.3
+initial_velocity_max = 97.64
+gravity = Vector3(0, 0, 0)
+damping_min = 39.053
+damping_max = 54.438
+scale_min = 2.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_jnppm")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7jmpq"]
+size = Vector2(28.5, 10.7)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ah02f"]
+resource_local_to_scene = true
+size = Vector2(300, 150)
+
+[sub_resource type="Resource" id="Resource_w5cfj"]
+script = ExtResource("3_unhw4")
+node_path = NodePath("../../..")
+property = &"initial_speed"
+scale_amount = 1.3
+exponential = false
+
+[sub_resource type="Resource" id="Resource_dt3sm"]
+script = ExtResource("3_unhw4")
+node_path = NodePath("../../..")
+property = &"particle_scale"
+scale_amount = 1.3
+exponential = false
+
+[node name="BulletExplode" type="Node2D"]
+scale = Vector2(10, 10)
+script = ExtResource("1_2uiwh")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+process_material = SubResource("ParticleProcessMaterial_f1sfr")
+explosiveness = 1.0
+fixed_fps = 0
+
+[node name="ScalePivot" type="Node2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="ScalePivot"]
+position = Vector2(31, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScalePivot/Area2D"]
+position = Vector2(-15.75, -0.0500004)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_7jmpq")
+
+[node name="ScaleComponent" parent="ScalePivot/Area2D" instance=ExtResource("1_6kwok")]
+scale_group = &"CannonSplash"
+select_rectangle = SubResource("RectangleShape2D_ah02f")
+property_scalers = Array[ExtResource("3_unhw4")]([SubResource("Resource_w5cfj"), SubResource("Resource_dt3sm")])
+
+[node name="SpriteScalerComponent" type="Node" parent="ScalePivot" node_paths=PackedStringArray("component")]
+script = ExtResource("4_t1a4t")
+component = NodePath("../Area2D/ScaleComponent")

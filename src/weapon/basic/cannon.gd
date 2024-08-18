@@ -1,6 +1,6 @@
 extends Weapon
 
-var weapon_distance := 425.0
+var weapon_distance := 325.0
 
 var alpha : float = 0.0
 

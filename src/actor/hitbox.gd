@@ -1,9 +1,9 @@
 extends Area2D
 
-signal hit(other: Area2D)
+signal hit(other: Node, damage)
 
-func on_hit(other):
-	hit.emit(other)
+func on_hit(other, damage:=1.0):
+	hit.emit(other, damage)
 
 func push(dir):
 	if get_parent().has_method('push'):

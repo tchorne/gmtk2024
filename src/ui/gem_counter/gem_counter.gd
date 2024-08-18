@@ -6,10 +6,12 @@ signal update_xp(xp: float, max: float)
 
 
 var current_xp := 0.0
-var max_xp := 10.0
+var max_xp := 50.0
 
 func add_xp(xp):
 	current_xp = min(current_xp+xp, max_xp)
 	sound_gem.play()
 	xp_bar.update(current_xp, max_xp)
 	
+func scale(level):
+	max_xp = 50.0 * (1.2**(level-1))

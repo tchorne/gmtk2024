@@ -33,6 +33,7 @@ GameCamera=""
 XPBar=""
 Enemy=""
 WeaponSelect=""
+GemCounter=""
 
 [input]
 
