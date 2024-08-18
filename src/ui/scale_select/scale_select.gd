@@ -6,6 +6,7 @@ const SELECT_RECT = preload("res://src/ui/scale_select/select_rect.tscn")
 @onready var select_rect: NinePatchRect = $SelectRect
 @onready var game_camera : Camera2D = get_tree().get_first_node_in_group("GameCamera")
 @onready var sub_viewport: SubViewport = $"../SubViewportContainer/SubViewport"
+@onready var game: Node2D = $"../SubViewportContainer/SubViewport/Game"
 
 var visible := false
 var previous_group: StringName = &""
@@ -74,10 +75,12 @@ func switch_group(group: StringName):
 			
 func _on_scale_mouse_enter(scale: ScaleComponent):
 	if not visible: return
-	switch_group(scale.scale_group)
+	#switch_group(scale.scale_group)
+	pass
 
 func _on_scale_mouse_exit(scale: ScaleComponent):
-	switch_group(&"")
+	#switch_group(&"")
+	pass
 	
 func scale_current_group():
 	ScaleManager.increase_scale(previous_group)
@@ -87,3 +90,19 @@ func scale_current_group():
 		if s.scale_group == previous_group:
 			s.scale()
 	toggle_off()
+
+func _process(_delta: float) -> void:
+	if visible:
+		var space_id = game.get_world_2d().space
+		var space_state = PhysicsServer2D.space_get_direct_state(space_id)
+		var query = PhysicsPointQueryParameters2D.new()
+		query.position = game.get_global_mouse_position()
+		query.collide_with_areas = true
+		query.collide_with_bodies = false
+		query.collision_mask = 1 << 7
+		var result = space_state.intersect_point(query)
+		print(result.size())
+		if result.size() == 0:
+			switch_group(&"")
+		else:
+			switch_group(result[0]['collider'].get_parent().scale_group)

@@ -1,5 +1,7 @@
 extends Panel
 
+signal selected
+
 class WeaponData:
 	var desc : String
 	var name : String
@@ -22,3 +24,7 @@ var data: WeaponData
 func _ready():
 	data = WEAPONS.pick_random()
 	
+
+
+func _on_texture_button_pressed() -> void:
+	selected.emit()

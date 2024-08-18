@@ -1,29 +1,14 @@
-[gd_scene load_steps=11 format=3 uid="uid://dcth7j2ygnnw8"]
+[gd_scene load_steps=8 format=3 uid="uid://dcth7j2ygnnw8"]
 
 [ext_resource type="Texture2D" uid="uid://1k2n251gl18p" path="res://assets/open/triangle.png" id="1_igp0b"]
 [ext_resource type="Script" path="res://src/weapon/weapon.gd" id="2_cdhjf"]
 [ext_resource type="AudioStream" uid="uid://bhqye3k1pocqs" path="res://assets/open/audio/fire_1.wav" id="4_qqy3j"]
 [ext_resource type="PackedScene" uid="uid://dl166bonw3bbc" path="res://src/generics/scale_component.tscn" id="5_mdjg2"]
-[ext_resource type="Script" path="res://src/generics/property_scaler.gd" id="6_0lyhi"]
 [ext_resource type="Script" path="res://src/actor/sprite_scaler_component.gd" id="7_n1k5h"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_hxhg2"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_j2ser"]
 resource_local_to_scene = true
 size = Vector2(2000, 2000)
-
-[sub_resource type="Resource" id="Resource_u2aqb"]
-script = ExtResource("6_0lyhi")
-node_path = NodePath("..")
-property = &"fire_rate"
-scale_amount = 0.9
-exponential = true
-
-[sub_resource type="Resource" id="Resource_rdqw6"]
-script = ExtResource("6_0lyhi")
-node_path = NodePath("..")
-property = &"weapon_distance"
-scale_amount = 1.5
-exponential = false
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_f378e"]
 radius = 42737.6
@@ -43,8 +28,7 @@ bus = &"Sound"
 
 [node name="ScaleComponent" parent="." instance=ExtResource("5_mdjg2")]
 scale_group = &"Weapon"
-select_rectangle = SubResource("RectangleShape2D_hxhg2")
-property_scalers = Array[ExtResource("6_0lyhi")]([SubResource("Resource_u2aqb"), SubResource("Resource_rdqw6")])
+select_rectangle = SubResource("RectangleShape2D_j2ser")
 
 [node name="SpriteScalerComponent" type="Node" parent="."]
 script = ExtResource("7_n1k5h")

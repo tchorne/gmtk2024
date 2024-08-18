@@ -16,4 +16,5 @@ func _ready():
 		panel.selected.connect(panel_selected.bind(panel))
 
 func panel_selected(panel):
-	
+	weapon_selected.emit(panel.data.scene)
+	toggle()
