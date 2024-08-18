@@ -9,16 +9,12 @@ var wave_index := 0
 
 const WAVES = [
 	# 0 min
+	[3, 0, 0, 0, 0, 0],
+	[6, 1, 0, 0, 0, 0],
 	[5, 0, 0, 0, 0, 0],
-	[5, 0, 0, 0, 0, 0],
-	[10, 0, 0, 0, 0, 0],
-	[4, 1, 0, 0, 0, 0],
-	[20, 0, 0, 0, 0, 0],
-	[15, 5, 0, 0, 0, 0],
-	[0, 10, 0, 0, 0, 0],
-	[0, 15, 0, 0, 0, 0],
-	[0, 10, 2, 0, 0, 0],
-	[0, 10, 2, 0, 0, 0],
+	[15, 2, 1, 0, 0, 0],
+	[20, 5, 0, 0, 0, 0],
+	[0, 8, 2, 0, 0, 0],
 	# 1 min
 ]
 
@@ -26,6 +22,7 @@ const WAVES = [
 func get_camera_rect():
 	var pos = camera.global_position
 	var half_size = camera.get_viewport_rect().size * 0.5 / camera.zoom
+	half_size *= 1.2
 	return Rect2(pos-half_size, half_size*2).abs()
 
 
@@ -39,6 +36,10 @@ func _on_timer_timeout() -> void:
 			var rect = get_camera_rect()
 			var pos := Vector2.ZERO
 			var side = randi()%4
+			if side == 0 or side == 2: # Left, right
+				pos.y = randf_range(rect.position.y, rect.end.y)
+			else:
+				pos.x = randf_range(rect.position.x, rect.end.x)
 			match side:
 				0:	# Right
 					pos.x = rect.end.x

@@ -2,8 +2,15 @@ extends Area2D
 
 signal hit(other: Node, damage)
 
-func on_hit(other, damage:=1.0):
+const DAMAGE_INDICATOR = preload("res://src/actor/damage_indicator.tscn")
+
+func on_hit(other, damage:=0.0):
 	hit.emit(other, damage)
+	if damage > 0.01:
+		var di = DAMAGE_INDICATOR.instantiate()
+		get_parent().get_parent().add_child(di)
+		di.global_position = global_position
+		di.init(damage)
 
 func push(dir):
 	if get_parent().has_method('push'):

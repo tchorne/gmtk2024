@@ -8,7 +8,6 @@ var x_scale := 229.0 : set=set_x_scale
 
 func set_x_scale(new):
 	x_scale = new
-	print(x_scale)
 	size.x = x_scale
 	if subtract_bar:
 		subtract_bar.size.x = x_scale

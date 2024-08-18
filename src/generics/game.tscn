@@ -1,11 +1,27 @@
-[gd_scene load_steps=7 format=3 uid="uid://0ohahh5dri1q"]
+[gd_scene load_steps=13 format=3 uid="uid://0ohahh5dri1q"]
 
 [ext_resource type="PackedScene" uid="uid://joe1u1thk886" path="res://src/player/player.tscn" id="1_g1mxb"]
 [ext_resource type="Script" path="res://src/weapon/weapons.gd" id="1_jcnwp"]
 [ext_resource type="PackedScene" uid="uid://dvvdi7hnj6yu5" path="res://src/enemy/enemy.tscn" id="6_4rj2x"]
+[ext_resource type="Texture2D" uid="uid://faudsihedmgi" path="res://assets/open/square.png" id="7_3hw41"]
 [ext_resource type="Script" path="res://src/ui/gem_counter/gem_counter.gd" id="7_ab60o"]
+[ext_resource type="Shader" path="res://src/generics/background.gdshader" id="7_arlvq"]
 [ext_resource type="Script" path="res://src/world/enemy_spawner.gd" id="7_ibclc"]
 [ext_resource type="AudioStream" uid="uid://dbk5l4pd0fed5" path="res://assets/open/audio/coin_1.wav" id="12_aasno"]
+
+[sub_resource type="Environment" id="Environment_6hto7"]
+background_mode = 1
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_l2y5f"]
+frequency = 0.0126
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_3pkgw"]
+seamless = true
+noise = SubResource("FastNoiseLite_l2y5f")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3x1js"]
+shader = ExtResource("7_arlvq")
+shader_parameter/noise = SubResource("NoiseTexture2D_3pkgw")
 
 [node name="Game" type="Node2D"]
 
@@ -24,7 +40,7 @@ zoom = Vector2(0.25, 0.25)
 script = ExtResource("7_ibclc")
 
 [node name="Timer" type="Timer" parent="EnemySpawner"]
-wait_time = 5.0
+wait_time = 10.0
 autostart = true
 
 [node name="GemCounter" type="Node" parent="." groups=["GemCounter"]]
@@ -37,5 +53,20 @@ volume_db = -6.673
 pitch_scale = 1.49
 max_polyphony = 50
 bus = &"Sound"
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_6hto7")
+
+[node name="Parallax2D" type="Parallax2D" parent="."]
+z_index = -100
+scale = Vector2(8, 8)
+repeat_size = Vector2(2048, 2048)
+repeat_times = 50
+
+[node name="TileMapLayer" type="TileMapLayer" parent="Parallax2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
+material = SubResource("ShaderMaterial_3x1js")
+texture = ExtResource("7_3hw41")
 
 [connection signal="timeout" from="EnemySpawner/Timer" to="EnemySpawner" method="_on_timer_timeout"]
