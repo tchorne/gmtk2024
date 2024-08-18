@@ -1,0 +1,58 @@
+[gd_scene load_steps=5 format=3 uid="uid://dq1tvg6x1k6op"]
+
+[ext_resource type="Script" path="res://src/weapon/weapon_panel.gd" id="1_37gtq"]
+[ext_resource type="Texture2D" uid="uid://faudsihedmgi" path="res://assets/open/square.png" id="2_tl3ga"]
+[ext_resource type="Theme" uid="uid://dxggbhxeui0kk" path="res://src/main.theme" id="2_vjv5w"]
+[ext_resource type="Texture2D" uid="uid://1k2n251gl18p" path="res://assets/open/triangle.png" id="3_yxy8p"]
+
+[node name="WeaponPanel" type="Panel"]
+custom_minimum_size = Vector2(200, 318)
+script = ExtResource("1_37gtq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("2_vjv5w")
+theme_override_constants/separation = 35
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Cannon"
+
+[node name="Control" type="Control" parent="VBoxContainer"]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Control"]
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_yxy8p")
+expand_mode = 2
+
+[node name="Label2" type="Label" parent="VBoxContainer"]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Fires towards the nearest enemy"
+autowrap_mode = 3
+
+[node name="TextureButton" type="TextureButton" parent="."]
+modulate = Color(1, 1, 1, 0.176471)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture_hover = ExtResource("2_tl3ga")
+ignore_texture_size = true
+stretch_mode = 0
