@@ -1,0 +1,46 @@
+[gd_scene load_steps=9 format=3 uid="uid://dyc4dddiqfla1"]
+
+[ext_resource type="Texture2D" uid="uid://be813iauusodp" path="res://assets/open/star.png" id="1_ci5sg"]
+[ext_resource type="Script" path="res://src/drops/weapon_star.tres.gd" id="1_d3ffg"]
+[ext_resource type="PackedScene" uid="uid://dl166bonw3bbc" path="res://src/generics/scale_component.tscn" id="3_tq6sw"]
+[ext_resource type="Script" path="res://src/generics/property_scaler.gd" id="4_n47bt"]
+[ext_resource type="Script" path="res://src/actor/sprite_scaler_component.gd" id="5_w0jjt"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_madv7"]
+radius = 27.074
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ynfyq"]
+resource_local_to_scene = true
+size = Vector2(90, 150)
+
+[sub_resource type="Resource" id="Resource_aynke"]
+script = ExtResource("4_n47bt")
+node_path = NodePath("..")
+property = &"bonus_options"
+scale_amount = 2.0
+exponential = false
+
+[node name="WeaponStar" type="Area2D"]
+z_index = 3
+scale = Vector2(2, 2)
+collision_layer = 4
+collision_mask = 0
+input_pickable = false
+script = ExtResource("1_d3ffg")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_madv7")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+rotation = 1.8326
+scale = Vector2(0.105, 0.105)
+texture = ExtResource("1_ci5sg")
+
+[node name="ScaleComponent" parent="." instance=ExtResource("3_tq6sw")]
+scale_group = &"WeaponStar"
+select_rectangle = SubResource("RectangleShape2D_ynfyq")
+property_scalers = Array[ExtResource("4_n47bt")]([SubResource("Resource_aynke")])
+
+[node name="SpriteScalerComponent" type="Node" parent="."]
+script = ExtResource("5_w0jjt")
+scale_amount = 1.0

@@ -60,10 +60,9 @@ environment = SubResource("Environment_6hto7")
 [node name="Parallax2D" type="Parallax2D" parent="."]
 z_index = -100
 scale = Vector2(8, 8)
+scroll_scale = Vector2(0.8, 0.8)
 repeat_size = Vector2(2048, 2048)
 repeat_times = 50
-
-[node name="TileMapLayer" type="TileMapLayer" parent="Parallax2D"]
 
 [node name="Sprite2D" type="Sprite2D" parent="Parallax2D"]
 material = SubResource("ShaderMaterial_3x1js")

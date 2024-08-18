@@ -18,7 +18,7 @@ func _on_area_entered(area: Area2D) -> void:
 		
 		queue_free()
 	if area.has_method("push"):
-		area.push(Vector2.RIGHT.rotated(rotation)*5000)
+		area.push(Vector2.RIGHT.rotated(rotation)*2)
 
 func create_explosion():
 	var e = BULLET_EXPLODE.instantiate()

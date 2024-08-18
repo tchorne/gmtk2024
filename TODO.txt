@@ -1,7 +1,7 @@
 TODO
 screen shake
-bullet particles
-bullet recoil
-enemy fade out shader
-boss enemy drop weapon
-proper mouse collision with area2ds
+death screen
+health bar
+space bar icon
+glowing when growth available
+invincibility frames

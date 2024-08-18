@@ -74,7 +74,7 @@ func switch_group(group: StringName):
 	var cost = ScaleManager.get_cost(group)
 	xp_bar.update_cost(cost)
 	
-	var col = Color("00b303") if cost < gem_counter.current_xp else Color.RED
+	var col = Color("00b303") if cost <= gem_counter.current_xp else Color.RED
 	
 	for s in components:
 		if s.scale_group == group:

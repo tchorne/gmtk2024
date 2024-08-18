@@ -27,7 +27,7 @@ var groups = [
 	ScaleGroup.new(&"Weapon", "Fire Rate ↑", 5, 2.0),
 	ScaleGroup.new(&"CannonSplash", "Splash Damage Radius ↑", 10, 2.0),
 	ScaleGroup.new(&"XPBar", "Gem Capacity ↑", 10, 1.5),
-	
+	ScaleGroup.new(&"WeaponStar", "Options ↑", 2, 5),
 ]
 
 var indexed_groups = {}

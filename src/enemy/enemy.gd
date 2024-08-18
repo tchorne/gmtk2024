@@ -1,10 +1,10 @@
 extends Sprite2D
 
 signal killed
-
+const WEAPON_STAR = preload("res://src/drops/weapon_star.tscn")
 const GEM = preload("res://src/drops/gem.tscn")
 const HITFLASH_DURATION = 0.1
-
+const ENEMY_FADEOUT = preload("res://src/enemy/enemy_fadeout.tscn")
 @onready var repel_zone: Area2D = $RepelZone
 @onready var boss_rim: Sprite2D = $BossRim
 
@@ -64,8 +64,10 @@ func _process(delta: float) -> void:
 	if global_position.y > cam_rect.end.y: global_position.y -= cam_rect.size.y
 	
 	velocity += dir * 5.0 * delta
-	velocity -= velocity * delta * GameSpeed.speed
-	if velocity.length_squared() > 1.0: velocity = velocity.normalized()
+	velocity -= velocity * delta * GameSpeed.speed * 2.0
+	
+	if velocity.length_squared() > 1.0: 
+		velocity = lerp(velocity, velocity.normalized(), delta*GameSpeed.speed * 5.0)	
 	
 	if hitflash_duration > 0:
 		hitflash_duration -= delta*GameSpeed.speed
@@ -78,7 +80,7 @@ func _process(delta: float) -> void:
 		if other.get_parent() == self: continue
 		if other.get_parent().has_method("push"):
 			var d = other.global_position-global_position
-			other.get_parent().push(d.normalized() * delta * 100.0)
+			other.get_parent().push(d.normalized() * delta * 10.0)
 
 func push(dir: Vector2):
 	velocity += dir
@@ -93,7 +95,11 @@ func _on_hitbox_hit(other: Node, damage) -> void:
 func die():
 	for i in int(round(gem_count)+(1-1<<boss_tier)):
 		call_deferred("create_gem")
-		
+	if boss_tier > highest_tier_killed:
+		highest_tier_killed += 1
+		call_deferred("create_star")
+	
+	call_deferred("create_fadeout")
 	killed.emit()
 	queue_free()
 	
@@ -102,3 +108,13 @@ func create_gem():
 	get_parent().add_child(gem)
 	gem.global_position = global_position
 		
+func create_star():
+	var star = WEAPON_STAR.instantiate()
+	get_parent().add_child(star)
+	star.global_position = global_position
+	
+func create_fadeout():
+	var f = ENEMY_FADEOUT.instantiate()
+	get_parent().add_child(f)
+	f.global_position = global_position
+	
