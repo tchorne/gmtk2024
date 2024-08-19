@@ -85,6 +85,9 @@ func _process(delta: float) -> void:
 		if other.get_parent().has_method("push"):
 			var d = other.global_position-global_position
 			other.get_parent().push(d.normalized() * delta * 10.0)
+			
+	var rotational_velocity = velocity.dot(dir)
+	rotate(rotational_velocity*delta*GameSpeed.speed)
 
 func push(dir: Vector2):
 	velocity += dir / (boss_tier+1)
