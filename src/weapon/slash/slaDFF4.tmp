@@ -10,39 +10,36 @@ script/source = "extends Area2D
 
 @onready var scale_component: ScaleComponent = $ScaleComponent
 const BULLET_EXPLODE = preload(\"res://src/weapon/basic/bullet_explode.tscn\")
-var speed := 600.0
+var speed := 2000.0
 var damage := 2.0
+var velocity := Vector2.ZERO
 var dashes := 1
-var backwards := false
+var backwards := true
 var t := 1.0
 var dash_start := Vector2.ZERO
 var tween: Tween
-var dash_vec = Vector2.RIGHT.rotated(rotation) * speed
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _ready():
-	dash_vec = Vector2.RIGHT.rotated(rotation) * speed
+	velocity = Vector2.RIGHT.rotated(rotation) * speed
 	dash()
 	
 func dash():
 	if tween:
 		tween.kill()
-	tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-	var end_position = global_position
-	tween.tween_property(self, \"global_position\",  dash_vec * (-1 if backwards else 1), 0.6).as_relative()
-	tween.finished.connect(dashend)
-	backwards = not backwards
-	
+	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	tween.tween_property(self, \"global_position\", global_positon + Vector2.RIGHT.rotated(rotation) * speed * (-1 if backwards else 1), 0.2)
 func _process(delta: float) -> void:
-	if tween:
-		tween.set_speed_scale(GameSpeed.speed)
-	rotate(delta*GameSpeed.speed*3.0)
-		
-func dashend():
-	if dashes > 0:
-		dashes -= 1
-		dash()
-	else:
-		queue_free()
+	#velocity = lerp(velocity, Vector2.ZERO, 1 - pow(0.01, delta * GameSpeed.speed))
+	
+	if velocity.length() < 200.0:
+		if dashes > 0:
+			dashes -= 1
+			dash()
+			backwards = not backwards
+		else:
+			queue_free()
+	translate(velocity*delta*GameSpeed.speed)
+	pass
 
 func _on_area_entered(area: Area2D) -> void:
 	if area.has_method(\"on_hit\"):
@@ -70,7 +67,7 @@ size = Vector2(2000, 2000)
 script = ExtResource("3_hetcj")
 node_path = NodePath("..")
 property = &"speed"
-scale_amount = 1.15
+scale_amount = 1.5
 exponential = false
 
 [sub_resource type="Resource" id="Resource_b4342"]

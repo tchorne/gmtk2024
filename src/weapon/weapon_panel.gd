@@ -24,8 +24,9 @@ var data: WeaponData
 
 func _ready():
 	data = WEAPONS.pick_random()
-	
-
+	$VBoxContainer/Label.text = data.name
+	$VBoxContainer/Label2.text = data.desc
+	$VBoxContainer/Control/TextureRect.texture = data.texture
 
 func _on_texture_button_pressed() -> void:
 	selected.emit()

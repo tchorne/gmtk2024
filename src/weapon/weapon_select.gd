@@ -11,7 +11,7 @@ func toggle():
 		pass
 		
 func _ready():
-	popup(1)
+	popup(3)
 	
 func panel_selected(panel):
 	weapon_selected.emit(panel.data.scene)

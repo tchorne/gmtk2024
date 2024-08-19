@@ -1,19 +1,22 @@
-[gd_scene load_steps=5 format=3 uid="uid://4mma00tschj8"]
+[gd_scene load_steps=6 format=3 uid="uid://4mma00tschj8"]
 
 [ext_resource type="PackedScene" uid="uid://dcth7j2ygnnw8" path="res://src/weapon/weapon.tscn" id="1_wqd8q"]
 [ext_resource type="Script" path="res://src/weapon/slash/slash.gd" id="2_sxlvk"]
 [ext_resource type="Script" path="res://src/weapon/bullet_spawner.gd" id="3_0bcn3"]
+[ext_resource type="PackedScene" uid="uid://b3tmpim2shmhv" path="res://src/weapon/slash/slash_bullet.tscn" id="4_f3vyk"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_qa55a"]
 resource_local_to_scene = true
 size = Vector2(2000, 2000)
 
-[node name="Weapon" instance=ExtResource("1_wqd8q")]
+[node name="Slash" instance=ExtResource("1_wqd8q")]
 script = ExtResource("2_sxlvk")
 player_path = null
 
 [node name="ScaleComponent" parent="." index="1"]
+scale_group = &"Slash"
 select_rectangle = SubResource("RectangleShape2D_qa55a")
 
 [node name="BulletSpawner" type="Node2D" parent="." index="4"]
 script = ExtResource("3_0bcn3")
+bullet_scene = ExtResource("4_f3vyk")

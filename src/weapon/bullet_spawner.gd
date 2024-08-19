@@ -5,7 +5,7 @@ extends Node2D
 
 func fire(angle : float):
 	var b = bullet_scene.instantiate()
+	b.rotation = angle
 	game.add_child(b)
 	b.global_position = global_position
-	b.rotation = angle
 	

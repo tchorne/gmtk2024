@@ -27,7 +27,10 @@ var groups = [
 	ScaleGroup.new(&"Enemy", "Health ↑ Gems ↑", 10, 4.0),
 	ScaleGroup.new(&"Player", "Speed ↑ Scale ↑",10, 4.0),
 	ScaleGroup.new(&"Gem", "Value ↑", 5, 2.0),
-	ScaleGroup.new(&"Weapon", "Fire Rate ↑", 5, 2.0),
+	ScaleGroup.new(&"Cannon", "Fire Rate ↑", 8, 4.0),
+	ScaleGroup.new(&"Slash", "Fire Rate ↑", 5, 2.0),
+	ScaleGroup.new(&"Slicer", "Slices ↑ Speed ↑", 5, 2.0),
+	
 	ScaleGroup.new(&"CannonSplash", "Splash Damage Radius ↑", 10, 2.0),
 	ScaleGroup.new(&"XPBar", "Gem Capacity ↑", 10, 2.5),
 	ScaleGroup.new(&"WeaponStar", "Options ↑", 2, 5),

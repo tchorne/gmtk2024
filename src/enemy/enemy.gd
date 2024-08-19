@@ -22,7 +22,10 @@ const BOSS_COLORS = [
 	Color(0.93, 0.912, 0.4),
 	Color(0.86, 0.494, 0.103),
 	Color(0.59, 0, 0),
-	Color(0.525, 0.13, 1)
+	Color(0.525, 0.13, 1),
+	Color(0.525, 0.13, 1),
+	Color(0.77, 0.231, 0.617)
+	
 ]
 
 var speed := 200.0
@@ -102,7 +105,11 @@ func _on_hitbox_hit(other: Node, damage) -> void:
 func die():
 	for i in int(round(gem_count)+(1-1<<boss_tier)):
 		call_deferred("create_gem")
-	if boss_tier > highest_tier_killed:
+	if boss_tier >= 7:
+		player.dead = true
+		player.invincibility_time = 99999
+		get_tree().get_first_node_in_group("Victory").popup()
+	elif boss_tier > highest_tier_killed:
 		highest_tier_killed += 1
 		call_deferred("create_star")
 	
