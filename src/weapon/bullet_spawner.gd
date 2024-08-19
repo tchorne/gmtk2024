@@ -1,6 +1,6 @@
 extends Node2D
 
-var bullet_scene = preload("res://src/weapon/basic/bullet.tscn")
+@export var bullet_scene = preload("res://src/weapon/basic/bullet.tscn")
 @onready var game: Node2D = $"../.."
 
 func fire(angle : float):

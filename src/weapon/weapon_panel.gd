@@ -14,7 +14,8 @@ class WeaponData:
 		scene = load(scene_path)
 
 static var WEAPONS = [
-	WeaponData.new("Cannon", "Fires towards the nearest enemy", "res://assets/open/triangle.png", "res://src/weapon/basic/cannon.tscn")
+	WeaponData.new("Cannon", "Fires towards the nearest enemy", "res://assets/open/triangle.png", "res://src/weapon/basic/cannon.tscn"),
+	WeaponData.new("Slash", "Pierces through enemies", "res://assets/open/triangle.png", "res://src/weapon/slash/slash.tscn")
 	
 	
 ]

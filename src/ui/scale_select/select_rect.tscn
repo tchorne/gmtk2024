@@ -5,10 +5,12 @@
 [ext_resource type="FontFile" uid="uid://dfd6qu4435qgh" path="res://assets/ignore/fonts/TerminusTTFWindows-Bold-4.49.3.ttf" id="3_y407k"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_dyu12"]
+font_size = 32
 outline_size = 5
 outline_color = Color(0.39048, 0.503375, 0.505548, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_a512m"]
+font_size = 32
 outline_size = 5
 outline_color = Color(0.39048, 0.503375, 0.505548, 1)
 
@@ -27,13 +29,13 @@ script = ExtResource("2_y5ykh")
 [node name="group" type="Label" parent="."]
 texture_filter = 1
 layout_mode = 1
-offset_left = -58.0
-offset_top = -12.0
-offset_right = -4.0
-offset_bottom = 11.0
+offset_left = -49.0
+offset_top = -35.0
+offset_right = 5.0
+offset_bottom = -2.0
 theme_override_fonts/font = ExtResource("3_y407k")
-theme_override_font_sizes/font_size = 18
-text = "Bullet"
+theme_override_font_sizes/font_size = 120
+text = "Bulleta"
 label_settings = SubResource("LabelSettings_dyu12")
 horizontal_alignment = 2
 visible_characters = 0
@@ -47,15 +49,15 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 3.0
-offset_top = 3.0
-offset_right = 75.0
-offset_bottom = 26.0
+offset_left = -17.0
+offset_top = 9.0
+offset_right = 55.0
+offset_bottom = 42.0
 grow_horizontal = 0
 grow_vertical = 0
 theme_override_fonts/font = ExtResource("3_y407k")
-theme_override_font_sizes/font_size = 18
-text = "Damage ↑"
+theme_override_font_sizes/font_size = 120
+text = "Bullet"
 label_settings = SubResource("LabelSettings_a512m")
 visible_characters = 0
 visible_ratio = 0.0

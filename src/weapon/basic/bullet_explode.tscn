@@ -27,7 +27,7 @@ scale_curve = SubResource("CurveTexture_jnppm")
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7jmpq"]
 size = Vector2(28.5, 10.7)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ah02f"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b7uee"]
 resource_local_to_scene = true
 size = Vector2(300, 150)
 
@@ -63,12 +63,11 @@ collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="ScalePivot/Area2D"]
 position = Vector2(-15.75, -0.0500004)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_7jmpq")
 
 [node name="ScaleComponent" parent="ScalePivot/Area2D" instance=ExtResource("1_6kwok")]
 scale_group = &"CannonSplash"
-select_rectangle = SubResource("RectangleShape2D_ah02f")
+select_rectangle = SubResource("RectangleShape2D_b7uee")
 property_scalers = Array[ExtResource("3_unhw4")]([SubResource("Resource_w5cfj"), SubResource("Resource_dt3sm")])
 
 [node name="SpriteScalerComponent" type="Node" parent="ScalePivot" node_paths=PackedStringArray("component")]

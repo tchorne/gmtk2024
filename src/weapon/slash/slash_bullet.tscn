@@ -1,0 +1,46 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3tmpim2shmhv"]
+
+[ext_resource type="Texture2D" uid="uid://1k2n251gl18p" path="res://assets/open/triangle.png" id="1_uig1p"]
+
+[sub_resource type="GDScript" id="GDScript_ea4ck"]
+script/source = "extends Area2D
+
+@onready var scale_component: ScaleComponent = $ScaleComponent
+const BULLET_EXPLODE = preload(\"res://src/weapon/basic/bullet_explode.tscn\")
+var speed := 2000.0
+var damage := 1.01
+var velocity := Vector2.ZERO
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _ready():
+	velocity = Vector2.RIGHT.rotated(rotation) * speed
+	
+
+func _process(delta: float) -> void:
+	velocity = lerp(velocity, Vector2.ZERO, 1 - pow(0.9, delta * GameSpeed.speed))
+	translate(Vector2.RIGHT.rotated(rotation)*delta*speed*GameSpeed.speed)
+	pass
+
+func _on_area_entered(area: Area2D) -> void:
+	if area.has_method(\"on_hit\"):
+		area.on_hit(self, damage)
+		
+		call_deferred(\"create_explosion\")
+		
+		queue_free()
+	if area.has_method(\"push\"):
+		area.push(Vector2.RIGHT.rotated(rotation)*2)
+
+func create_explosion():
+	var e = BULLET_EXPLODE.instantiate()
+	e.rotation = rotation
+	e.global_position = global_position
+	get_parent().add_child(e)
+"
+
+[node name="SlashBullet" type="Area2D"]
+scale = Vector2(0.01, 0.01)
+script = SubResource("GDScript_ea4ck")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_uig1p")
