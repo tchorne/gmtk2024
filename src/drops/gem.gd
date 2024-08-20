@@ -10,8 +10,11 @@ var xp := 10.0
 
 @onready var player : Sprite2D = get_tree().get_first_node_in_group("Player")
 
+func _ready() -> void:
+	get_tree().root.get_node("Main").reset.connect(func(): queue_free())
 
 func _process(delta: float) -> void:
+	rotate(delta*GameSpeed.speed)
 	if moving_to_player:
 		t += delta * GameSpeed.speed
 		var q0 = lerp(p1, p2, t)

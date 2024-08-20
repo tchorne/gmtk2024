@@ -24,6 +24,7 @@ scale_amount = 1.4
 exponential = false
 
 [node name="Cannon" instance=ExtResource("1_tu2bx")]
+modulate = Color(0.490196, 1, 1, 1)
 script = ExtResource("2_6iu3d")
 player_path = null
 

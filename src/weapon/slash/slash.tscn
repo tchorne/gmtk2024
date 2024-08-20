@@ -10,6 +10,7 @@ resource_local_to_scene = true
 size = Vector2(2000, 2000)
 
 [node name="Slash" instance=ExtResource("1_wqd8q")]
+modulate = Color(0.49, 1, 0.609, 1)
 script = ExtResource("2_sxlvk")
 player_path = null
 

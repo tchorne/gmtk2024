@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://2y00c0y6054q"]
 
 [ext_resource type="Shader" path="res://src/enemy/enemy_fadeout.gdshader" id="1_tcgg8"]
-[ext_resource type="Texture2D" uid="uid://blw3d2vuo03y4" path="res://assets/open/circle.png" id="2_livy7"]
+[ext_resource type="Texture2D" uid="uid://cp0xcbevg4a82" path="res://assets/open/hexagon.png" id="2_wtq40"]
 [ext_resource type="Script" path="res://src/enemy/enemy_fadeout.gd" id="3_fsst7"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_5l31g"]
@@ -12,5 +12,5 @@ shader_parameter/t = null
 [node name="Sprite2D" type="Sprite2D"]
 material = SubResource("ShaderMaterial_5l31g")
 scale = Vector2(0.1, 0.1)
-texture = ExtResource("2_livy7")
+texture = ExtResource("2_wtq40")
 script = ExtResource("3_fsst7")

@@ -16,5 +16,8 @@ collision_mask = 0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="MouseDetector"]
 shape = SubResource("RectangleShape2D_dajvx")
 
+[node name="Timer" type="Timer" parent="."]
+
 [connection signal="mouse_entered" from="MouseDetector" to="." method="_on_mouse_detector_mouse_entered"]
 [connection signal="mouse_exited" from="MouseDetector" to="." method="_on_mouse_detector_mouse_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

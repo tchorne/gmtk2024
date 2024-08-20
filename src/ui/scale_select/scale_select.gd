@@ -3,17 +3,18 @@ extends Node
 const SELECT_RECT = preload("res://src/ui/scale_select/select_rect.tscn")
 
 @onready var color_rect: ColorRect = $ColorRect
-@onready var select_rect: NinePatchRect = $SelectRect
 @onready var game_camera : Camera2D = get_tree().get_first_node_in_group("GameCamera")
 @onready var sub_viewport: SubViewport = $"../SubViewportContainer/SubViewport"
 @onready var game: Node2D = $"../SubViewportContainer/SubViewport/Game"
 @onready var xp_bar = get_tree().get_first_node_in_group("XPBar")
 @onready var gem_counter = get_tree().get_first_node_in_group("GemCounter")
+@onready var tutorial_arrow: Control = $TutorialArrow
 
 var visible := false
 var previous_group: StringName = &""
 var previous_component : ScaleComponent
 var selected_cost := 0.0
+var tutorial_bullet = null
 
 func _enter_tree() -> void:
 	for node in get_tree().get_nodes_in_group("ScaleComponent"):
@@ -44,16 +45,21 @@ func toggle():
 func toggle_on():
 	visible = true
 	color_rect.visible = true
-	select_rect.visible = false
 	InputHandler.scale_select = true
 	GameSpeed.scale_select_factor = 0.02
+	
+	var bullets = get_tree().get_nodes_in_group("BulletTutorial")
+	if bullets.size() > 0:
+		tutorial_bullet = bullets[0]
+	
 
 func toggle_off():
 	GameSpeed.scale_select_factor = 1.0
 	visible = false
 	InputHandler.scale_select = false
 	color_rect.visible = false
-	select_rect.visible = false
+	if is_instance_valid(tutorial_arrow):
+		tutorial_arrow.visible = false
 	switch_group(&"")
 	pass
 
@@ -134,11 +140,7 @@ func scale_current_group():
 			$blip_2.pitch_scale = 1.0	
 			$blip_2.play()
 		
-		
 	toggle_off()
-		
-	
-	
 
 func _physics_process(_delta: float) -> void:
 	if visible:
@@ -156,6 +158,17 @@ func _physics_process(_delta: float) -> void:
 			previous_component = result[0]['collider'].get_parent()
 			switch_group(previous_component.scale_group)
 			return
+		
+		if is_instance_valid(tutorial_arrow):
+			if max(ScaleManager.scales[&"Bullet"], ScaleManager.scales[&"Slicer"]) > 1: tutorial_arrow.queue_free()
+			if is_instance_valid(tutorial_bullet) and gem_counter.current_xp >= max(ScaleManager.get_cost(&"Bullet"), ScaleManager.get_cost(&"Slicer")):
+				tutorial_arrow.visible = true
+				#tutorial_arrow.global_position = tutorial_bullet.global_position *  + Vector2.RIGHT * 100
+				tutorial_arrow.global_position = sub_viewport.canvas_transform * tutorial_bullet.global_position + Vector2.RIGHT * 20 + Vector2.UP * 30
+				
+				#tutorial_arrow.global_position = Vector2.ZERO
+			else:
+				tutorial_arrow.visible = false
 		
 		var space_id = game.get_world_2d().space
 		var space_state = PhysicsServer2D.space_get_direct_state(space_id)

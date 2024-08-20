@@ -9,7 +9,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yg2aq"]
 size = Vector2(72.475, 48.175)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_qms2w"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0b6j3"]
 resource_local_to_scene = true
 size = Vector2(70, 40)
 
@@ -20,7 +20,7 @@ property = &"damage"
 scale_amount = 2.0
 exponential = false
 
-[node name="Bullet" type="Area2D"]
+[node name="Bullet" type="Area2D" groups=["BulletTutorial"]]
 collision_layer = 0
 collision_mask = 2
 input_pickable = false
@@ -36,7 +36,7 @@ shape = SubResource("RectangleShape2D_yg2aq")
 
 [node name="ScaleComponent" parent="." instance=ExtResource("3_0bhn3")]
 scale_group = &"Bullet"
-select_rectangle = SubResource("RectangleShape2D_qms2w")
+select_rectangle = SubResource("RectangleShape2D_0b6j3")
 property_scalers = Array[ExtResource("4_mqtg4")]([SubResource("Resource_k5fme")])
 
 [node name="SpriteScalerComponent" type="Node" parent="."]
@@ -44,5 +44,10 @@ script = ExtResource("4_htf4m")
 scale_amount = 0.4
 scale_rate = 3.0
 
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-1.50001, 3.50001)
+scale = Vector2(13.35, 8.05)
+
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="scaled" from="ScaleComponent" to="." method="_on_scale_component_scaled"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

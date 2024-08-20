@@ -27,7 +27,6 @@ func dash():
 	if tween:
 		tween.kill()
 	tween = create_tween().set_ease(Tween.EASE_IN_OUT).set_trans(Tween.TRANS_CUBIC)
-	var end_position = global_position
 	tween.tween_property(self, \"global_position\",  dash_vec * (-1 if backwards else 1), 0.6).as_relative()
 	tween.finished.connect(dashend)
 	backwards = not backwards
@@ -62,7 +61,7 @@ func create_explosion():
 resource_local_to_scene = true
 size = Vector2(1766.67, 2000)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jq4hl"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ri702"]
 resource_local_to_scene = true
 size = Vector2(2000, 2000)
 
@@ -80,7 +79,7 @@ property = &"dashes"
 scale_amount = 2.0
 exponential = false
 
-[node name="SlashBullet" type="Area2D"]
+[node name="SlashBullet" type="Area2D" groups=["BulletTutorial"]]
 z_index = 2
 scale = Vector2(0.03, 0.03)
 collision_layer = 0
@@ -92,12 +91,11 @@ texture = ExtResource("1_uig1p")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(50, 3.17891e-05)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_ityw5")
 
 [node name="ScaleComponent" parent="." instance=ExtResource("2_o2d7g")]
 scale_group = &"Slicer"
-select_rectangle = SubResource("RectangleShape2D_jq4hl")
+select_rectangle = SubResource("RectangleShape2D_ri702")
 property_scalers = Array[ExtResource("3_hetcj")]([SubResource("Resource_4pkfa"), SubResource("Resource_b4342")])
 
 [node name="SpriteScalerComponent" type="Node" parent="."]

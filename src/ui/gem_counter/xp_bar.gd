@@ -21,12 +21,13 @@ func update(xp: float, new_max: float):
 	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK)
 	tween.tween_property(self, "value", xp / max, 0.3)
 	label.text = str(int(xp))
+	self_modulate = Color(0.92, 0.713, 0.23) if xp >= max else Color.WHITE
 
 func update_cost(xp):
 	subtract_bar.value = xp / max
 	var length = size.x * subtract_bar.value
 	subtract_bar.position.x = lerp(0.0, size.x, value) - length
-	subtract_bar.self_modulate = Color.RED if subtract_bar.value > value else Color.CORAL
+	subtract_bar.self_modulate = Color.RED if subtract_bar.value >= value else Color.CORAL
 	
 	
 func _process(delta):

@@ -25,3 +25,7 @@ func create_explosion():
 	e.rotation = rotation
 	e.global_position = global_position
 	get_parent().add_child(e)
+
+
+func _on_visible_on_screen_notifier_2d_screen_exited() -> void:
+	queue_free()

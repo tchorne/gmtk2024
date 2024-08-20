@@ -14,12 +14,15 @@ func _ready():
 	popup(3)
 	
 func panel_selected(panel):
+	$blip_2.play()
 	weapon_selected.emit(panel.data.scene)
 	for c in hbox.get_children():
 		c.queue_free()
 	toggle()
 
 func popup(count: int):
+	$blip_1.play()
+	
 	if not visible:
 		for i in count:
 			var panel = WEAPON_PANEL.instantiate()

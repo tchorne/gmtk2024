@@ -41,6 +41,8 @@ var indexed_groups = {}
 func _ready():
 	for g in groups:
 		indexed_groups[g.name] = g
+		if g not in scales:
+			scales[g.name] = 1
 	get_tree().root.get_node("Main").reset.connect(func():
 		scales[&"Enemy"] = 1
 		scales[&"Health"] = 5
