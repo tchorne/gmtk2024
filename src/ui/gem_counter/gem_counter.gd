@@ -12,6 +12,7 @@ func add_xp(xp):
 	current_xp = min(current_xp+xp, max_xp)
 	sound_gem.play()
 	xp_bar.update(current_xp, max_xp)
+	GameStats.xp += xp
 	
 func scale(level):
 	max_xp = 50.0 * (2.0**(level-1))

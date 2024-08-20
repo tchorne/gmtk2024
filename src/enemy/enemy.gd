@@ -62,6 +62,9 @@ func get_camera_rect():
 	return Rect2(pos-half_size, half_size*2).abs()
 
 func _process(delta: float) -> void:
+	
+		
+	
 	var dir = (player.global_position - global_position).normalized()
 	
 	var cam_rect : Rect2 = get_camera_rect()
@@ -113,6 +116,7 @@ func die():
 		highest_tier_killed += 1
 		call_deferred("create_star")
 	
+	GameStats.kills += 1
 	call_deferred("create_fadeout")
 	killed.emit()
 	queue_free()

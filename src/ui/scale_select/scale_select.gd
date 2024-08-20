@@ -126,6 +126,7 @@ func scale_current_group():
 			$blip_2.pitch_scale = 0.5	
 			$blip_2.play()
 		else:
+			GameStats.scales += 1
 			gem_counter.add_xp(-cost)
 			if not previous_component.oneshot:
 				ScaleManager.increase_scale(previous_group)

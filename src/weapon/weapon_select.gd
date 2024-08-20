@@ -12,6 +12,7 @@ func toggle():
 		
 func _ready():
 	popup(3)
+	get_tree().root.get_node("Main").reset.connect(popup.bind(3))
 	
 func panel_selected(panel):
 	$blip_2.play()

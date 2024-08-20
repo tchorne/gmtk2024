@@ -61,7 +61,7 @@ func create_explosion():
 resource_local_to_scene = true
 size = Vector2(1766.67, 2000)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_ri702"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_pj87p"]
 resource_local_to_scene = true
 size = Vector2(2000, 2000)
 
@@ -95,7 +95,7 @@ shape = SubResource("RectangleShape2D_ityw5")
 
 [node name="ScaleComponent" parent="." instance=ExtResource("2_o2d7g")]
 scale_group = &"Slicer"
-select_rectangle = SubResource("RectangleShape2D_ri702")
+select_rectangle = SubResource("RectangleShape2D_pj87p")
 property_scalers = Array[ExtResource("3_hetcj")]([SubResource("Resource_4pkfa"), SubResource("Resource_b4342")])
 
 [node name="SpriteScalerComponent" type="Node" parent="."]

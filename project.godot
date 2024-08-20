@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="GMTK2024"
+config/name="MacroShot"
 run/main_scene="res://src/generics/main.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 config/icon="res://icon.svg"
@@ -24,6 +24,7 @@ buses/default_bus_layout="res://src/audio_bus_layout.tres"
 GameSpeed="*res://src/globals/game_speed.gd"
 InputHandler="*res://src/globals/input_handler.gd"
 ScaleManager="*res://src/globals/scale_manager.gd"
+GameStats="*res://src/globals/game_stats.gd"
 
 [global_group]
 

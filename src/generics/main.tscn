@@ -333,30 +333,75 @@ text = "VICTORY"
 
 [node name="Label2" type="Label" parent="UI/Victory"]
 layout_mode = 0
-offset_left = 677.0
+offset_left = 1277.0
 offset_top = 350.0
-offset_right = 1079.0
+offset_right = 1679.0
 offset_bottom = 375.0
 theme = ExtResource("8_hkhv0")
 text = "CREATED BY THOMAS HORNE"
 
 [node name="Label3" type="Label" parent="UI/Victory"]
 layout_mode = 0
-offset_left = 677.0
+offset_left = 1277.0
 offset_top = 401.0
-offset_right = 1079.0
+offset_right = 1679.0
 offset_bottom = 422.0
 theme = ExtResource("8_hkhv0")
 text = "ADDITIONAL PROGRAMMING BY RAFI"
 
 [node name="Label4" type="Label" parent="UI/Victory"]
 layout_mode = 0
-offset_left = 677.0
+offset_left = 1277.0
 offset_top = 445.0
-offset_right = 1079.0
+offset_right = 1679.0
 offset_bottom = 466.0
 theme = ExtResource("8_hkhv0")
 text = "MUSIC BY LMZ"
+
+[node name="Label5" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = -550.0
+offset_top = 270.0
+offset_right = -148.0
+offset_bottom = 291.0
+theme = ExtResource("8_hkhv0")
+text = "Enemies Killed:  "
+
+[node name="Label6" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = -550.0
+offset_top = 325.0
+offset_right = -148.0
+offset_bottom = 346.0
+theme = ExtResource("8_hkhv0")
+text = "XP COLLECTED:  "
+
+[node name="Label7" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = -550.0
+offset_top = 375.0
+offset_right = -148.0
+offset_bottom = 396.0
+theme = ExtResource("8_hkhv0")
+text = "REVIVES USED:  "
+
+[node name="Label8" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = -550.0
+offset_top = 435.0
+offset_right = -148.0
+offset_bottom = 456.0
+theme = ExtResource("8_hkhv0")
+text = "TIME ELAPSED:  "
+
+[node name="Label9" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = -550.0
+offset_top = 483.0
+offset_right = -148.0
+offset_bottom = 504.0
+theme = ExtResource("8_hkhv0")
+text = "SCALES PERFORMED:  "
 
 [node name="Health" type="Control" parent="UI" groups=["Health"]]
 anchors_preset = 0
