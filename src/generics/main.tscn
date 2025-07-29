@@ -1,7 +1,523 @@
-[gd_scene load_steps=2 format=3 uid="uid://c6wo6wsepace8"]
+[gd_scene load_steps=30 format=3 uid="uid://c6wo6wsepace8"]
 
+[ext_resource type="Script" path="res://src/generics/main.gd" id="1_8dl88"]
 [ext_resource type="PackedScene" uid="uid://0ohahh5dri1q" path="res://src/generics/game.tscn" id="1_v1ojg"]
+[ext_resource type="Script" path="res://src/ui/scale_select/scale_select.gd" id="2_l6sj4"]
+[ext_resource type="Texture2D" uid="uid://6x22vwx86eux" path="res://assets/open/square_border.png" id="2_petyu"]
+[ext_resource type="Texture2D" uid="uid://faudsihedmgi" path="res://assets/open/square.png" id="3_37xa8"]
+[ext_resource type="Script" path="res://src/ui/gem_counter/xp_bar.gd" id="4_ndoum"]
+[ext_resource type="Script" path="res://src/weapon/weapon_select.gd" id="5_0l4cg"]
+[ext_resource type="PackedScene" uid="uid://dl166bonw3bbc" path="res://src/generics/scale_component.tscn" id="5_lquf2"]
+[ext_resource type="FontFile" uid="uid://dfd6qu4435qgh" path="res://assets/ignore/fonts/TerminusTTFWindows-Bold-4.49.3.ttf" id="6_fin31"]
+[ext_resource type="Script" path="res://src/generics/property_scaler.gd" id="6_ixubh"]
+[ext_resource type="Theme" uid="uid://dxggbhxeui0kk" path="res://src/main.theme" id="8_hkhv0"]
+[ext_resource type="AudioStream" uid="uid://cwhn3cmhwxfms" path="res://assets/open/audio/blip_1.wav" id="8_v2thy"]
+[ext_resource type="Script" path="res://src/ui/gem_counter/space_tutorial.gd" id="9_ibhix"]
+[ext_resource type="Script" path="res://src/ui/menus/game_over.gd" id="9_mk0vq"]
+[ext_resource type="AudioStream" uid="uid://8a6idolagdu3" path="res://assets/open/audio/scale_up.wav" id="9_yeiha"]
+[ext_resource type="AudioStream" uid="uid://bbge8uwqeg0n2" path="res://assets/ignore/music/30s.wav" id="10_3vtfo"]
+[ext_resource type="Script" path="res://src/ui/menus/tutorial_xp_bar.gd" id="10_tdqkm"]
+[ext_resource type="Script" path="res://src/player/health.gd" id="10_y7820"]
+[ext_resource type="Texture2D" uid="uid://dmjsc3uscah57" path="res://assets/open/redsquare.png" id="11_nvlss"]
+[ext_resource type="Script" path="res://src/generics/music.gd" id="11_vwy6s"]
+[ext_resource type="Script" path="res://src/generics/victory.gd" id="12_s11y6"]
+[ext_resource type="Texture2D" uid="uid://dpc6emcogf1j7" path="res://assets/open/left_arrow.png" id="19_e2yj5"]
+[ext_resource type="Script" path="res://src/generics/arrow_sin.gd" id="20_31nqu"]
+[ext_resource type="PackedScene" uid="uid://30lkl6up67yi" path="res://src/ui/scale_select/select_rect.tscn" id="22_duaqu"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c1am2"]
+size = Vector2(229, 40)
+
+[sub_resource type="Resource" id="Resource_ajsht"]
+script = ExtResource("6_ixubh")
+node_path = NodePath("../..")
+property = &"x_scale"
+scale_amount = 1.2
+exponential = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_vea4m"]
+font = ExtResource("6_fin31")
+font_size = 52
+
+[sub_resource type="FontFile" id="FontFile_ppn4b"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+
+[sub_resource type="Theme" id="Theme_evags"]
+Label/fonts/font = SubResource("FontFile_ppn4b")
 
 [node name="Main" type="Node"]
+script = ExtResource("1_8dl88")
 
-[node name="Game" parent="." instance=ExtResource("1_v1ojg")]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+handle_input_locally = false
+physics_object_picking = true
+size = Vector2i(1152, 648)
+render_target_update_mode = 4
+
+[node name="Game" parent="SubViewportContainer/SubViewport" instance=ExtResource("1_v1ojg")]
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Top" type="Control" parent="UI"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 6.0
+offset_right = 20.0
+offset_bottom = 46.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="XPBar" type="TextureProgressBar" parent="UI/Top" groups=["XPBar"]]
+texture_filter = 1
+layout_mode = 0
+offset_left = -114.0
+offset_right = 115.0
+offset_bottom = 40.0
+max_value = 1.0
+step = 0.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_over = ExtResource("2_petyu")
+texture_progress = ExtResource("3_37xa8")
+script = ExtResource("4_ndoum")
+
+[node name="Label" type="Label" parent="UI/Top/XPBar"]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 3.0
+offset_right = 60.0
+offset_bottom = 40.0
+theme_override_colors/font_color = Color(0.133196, 0.133196, 0.133196, 1)
+theme_override_fonts/font = ExtResource("6_fin31")
+theme_override_font_sizes/font_size = 36
+text = "0"
+
+[node name="SubtractBar" type="TextureProgressBar" parent="UI/Top/XPBar"]
+texture_filter = 1
+layout_mode = 0
+offset_right = 229.0
+offset_bottom = 40.0
+max_value = 1.0
+step = 0.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_progress = ExtResource("3_37xa8")
+metadata/_edit_lock_ = true
+
+[node name="Center" type="Control" parent="UI/Top/XPBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScaleComponent" parent="UI/Top/XPBar/Center" instance=ExtResource("5_lquf2")]
+ui = true
+scale_group = &"XPBar"
+select_rectangle = SubResource("RectangleShape2D_c1am2")
+property_scalers = Array[ExtResource("6_ixubh")]([SubResource("Resource_ajsht")])
+
+[node name="SpaceTutorial" type="Label" parent="UI/Top/XPBar"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -166.5
+offset_top = 2.0
+offset_right = 171.5
+offset_bottom = 55.0
+grow_horizontal = 2
+grow_vertical = 0
+text = ">>> SPACE <<<"
+label_settings = SubResource("LabelSettings_vea4m")
+script = ExtResource("9_ibhix")
+
+[node name="Timer" type="Timer" parent="UI/Top/XPBar/SpaceTutorial"]
+wait_time = 0.3
+autostart = true
+
+[node name="TutorialXPBar" type="Control" parent="UI/Top/XPBar"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = 46.0
+offset_top = -20.0
+offset_right = 86.0
+offset_bottom = 20.0
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("10_tdqkm")
+
+[node name="TextureRect" type="TextureRect" parent="UI/Top/XPBar/TutorialXPBar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("19_e2yj5")
+expand_mode = 1
+script = ExtResource("20_31nqu")
+
+[node name="WeaponSelect" type="Control" parent="UI" groups=["WeaponSelect"]]
+visible = false
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_0l4cg")
+
+[node name="ColorRect" type="ColorRect" parent="UI/WeaponSelect"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.152941)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="UI/WeaponSelect"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -405.0
+offset_top = -159.0
+offset_right = 405.0
+offset_bottom = 159.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="blip_1" type="AudioStreamPlayer" parent="UI/WeaponSelect"]
+stream = ExtResource("8_v2thy")
+
+[node name="blip_2" type="AudioStreamPlayer" parent="UI/WeaponSelect"]
+stream = ExtResource("9_yeiha")
+
+[node name="GameOver" type="Control" parent="UI"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_mk0vq")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="UI/GameOver"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.152941)
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="UI/GameOver"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -345.0
+offset_top = -190.0
+offset_right = 362.0
+offset_bottom = -54.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("8_hkhv0")
+theme_override_font_sizes/font_size = 121
+text = "YOU DIED"
+
+[node name="Button" type="Button" parent="UI/GameOver"]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -483.0
+offset_top = -239.0
+offset_right = -186.0
+offset_bottom = -94.0
+theme = ExtResource("8_hkhv0")
+theme_override_font_sizes/font_size = 40
+text = "Revive at Wave 1"
+autowrap_mode = 3
+
+[node name="Victory" type="Control" parent="UI" groups=["Victory"]]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("12_s11y6")
+metadata/_edit_lock_ = true
+
+[node name="ColorRect" type="ColorRect" parent="UI/Victory"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.494118)
+metadata/_edit_lock_ = true
+
+[node name="Label" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = 342.0
+offset_top = 88.0
+offset_right = 812.0
+offset_bottom = 185.0
+theme = ExtResource("8_hkhv0")
+theme_override_font_sizes/font_size = 86
+text = "VICTORY"
+
+[node name="Label2" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = 1277.0
+offset_top = 350.0
+offset_right = 1679.0
+offset_bottom = 375.0
+theme = ExtResource("8_hkhv0")
+text = "CREATED BY THOMAS HORNE"
+
+[node name="Label3" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = 1277.0
+offset_top = 401.0
+offset_right = 1679.0
+offset_bottom = 422.0
+theme = ExtResource("8_hkhv0")
+text = "ADDITIONAL PROGRAMMING BY RAFI"
+
+[node name="Label4" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = 1277.0
+offset_top = 445.0
+offset_right = 1679.0
+offset_bottom = 466.0
+theme = ExtResource("8_hkhv0")
+text = "MUSIC BY LMZ"
+
+[node name="Label5" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = -550.0
+offset_top = 270.0
+offset_right = -148.0
+offset_bottom = 291.0
+theme = ExtResource("8_hkhv0")
+text = "Enemies Killed:  "
+
+[node name="Label6" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = -550.0
+offset_top = 325.0
+offset_right = -148.0
+offset_bottom = 346.0
+theme = ExtResource("8_hkhv0")
+text = "XP COLLECTED:  "
+
+[node name="Label7" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = -550.0
+offset_top = 375.0
+offset_right = -148.0
+offset_bottom = 396.0
+theme = ExtResource("8_hkhv0")
+text = "REVIVES USED:  "
+
+[node name="Label8" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = -550.0
+offset_top = 435.0
+offset_right = -148.0
+offset_bottom = 456.0
+theme = ExtResource("8_hkhv0")
+text = "TIME ELAPSED:  "
+
+[node name="Label9" type="Label" parent="UI/Victory"]
+layout_mode = 0
+offset_left = -550.0
+offset_top = 483.0
+offset_right = -148.0
+offset_bottom = 504.0
+theme = ExtResource("8_hkhv0")
+text = "SCALES PERFORMED:  "
+
+[node name="Button" type="Button" parent="UI/Victory"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1130.0
+offset_top = -56.0
+offset_right = -956.0
+offset_bottom = -10.0
+theme = ExtResource("8_hkhv0")
+theme_override_font_sizes/font_size = 20
+text = "PLAY AGAIN"
+autowrap_mode = 3
+
+[node name="Health" type="Control" parent="UI" groups=["Health"]]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("10_y7820")
+
+[node name="Bar" type="TextureProgressBar" parent="UI/Health"]
+texture_filter = 1
+layout_mode = 0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 239.0
+offset_bottom = 48.0
+max_value = 1.0
+step = 0.0
+nine_patch_stretch = true
+stretch_margin_left = 4
+stretch_margin_top = 4
+stretch_margin_right = 4
+stretch_margin_bottom = 4
+texture_under = ExtResource("2_petyu")
+texture_over = ExtResource("2_petyu")
+texture_progress = ExtResource("11_nvlss")
+
+[node name="Control" type="Control" parent="UI/Health/Bar"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ScaleComponent" parent="UI/Health/Bar/Control" instance=ExtResource("5_lquf2")]
+ui = true
+scale_group = &"Health"
+select_rectangle = SubResource("RectangleShape2D_c1am2")
+oneshot = true
+
+[node name="ScaleSelect" type="Node" parent="."]
+script = ExtResource("2_l6sj4")
+
+[node name="ColorRect" type="ColorRect" parent="ScaleSelect"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+color = Color(0, 0, 0, 0.152941)
+metadata/_edit_lock_ = true
+
+[node name="SelectRects" type="Control" parent="ScaleSelect"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("Theme_evags")
+metadata/_edit_lock_ = true
+
+[node name="blip_1" type="AudioStreamPlayer" parent="ScaleSelect"]
+stream = ExtResource("8_v2thy")
+
+[node name="blip_2" type="AudioStreamPlayer" parent="ScaleSelect"]
+stream = ExtResource("9_yeiha")
+
+[node name="TutorialArrow" type="Control" parent="ScaleSelect"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="ScaleSelect/TutorialArrow"]
+layout_mode = 0
+offset_right = 61.0
+offset_bottom = 61.0
+texture = ExtResource("19_e2yj5")
+expand_mode = 1
+script = ExtResource("20_31nqu")
+
+[node name="SelectRect" parent="ScaleSelect" instance=ExtResource("22_duaqu")]
+visible = false
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_3vtfo")
+autoplay = true
+script = ExtResource("11_vwy6s")
+
+[connection signal="reset" from="." to="." method="_on_reset"]
+[connection signal="scaled" from="UI/Top/XPBar/Center/ScaleComponent" to="UI/Top/XPBar" method="_on_scale_component_scaled"]
+[connection signal="timeout" from="UI/Top/XPBar/SpaceTutorial/Timer" to="UI/Top/XPBar/SpaceTutorial" method="_on_timer_timeout"]
+[connection signal="pressed" from="UI/GameOver/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="UI/GameOver/Button" to="UI/GameOver" method="_on_button_pressed"]
+[connection signal="pressed" from="UI/Victory/Button" to="UI/Victory" method="_on_button_pressed"]
+[connection signal="scaled" from="UI/Health/Bar/Control/ScaleComponent" to="UI/Health" method="_on_scale_component_scaled"]

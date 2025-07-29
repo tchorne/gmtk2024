@@ -1,0 +1,184 @@
+extends Node
+
+const SELECT_RECT = preload("res://src/ui/scale_select/select_rect.tscn")
+
+@onready var color_rect: ColorRect = $ColorRect
+@onready var game_camera : Camera2D = get_tree().get_first_node_in_group("GameCamera")
+@onready var sub_viewport: SubViewport = $"../SubViewportContainer/SubViewport"
+@onready var game: Node2D = $"../SubViewportContainer/SubViewport/Game"
+@onready var xp_bar = get_tree().get_first_node_in_group("XPBar")
+@onready var gem_counter = get_tree().get_first_node_in_group("GemCounter")
+@onready var tutorial_arrow: Control = $TutorialArrow
+
+var visible := false
+var previous_group: StringName = &""
+var previous_component : ScaleComponent
+var selected_cost := 0.0
+var tutorial_bullet = null
+
+func _enter_tree() -> void:
+	for node in get_tree().get_nodes_in_group("ScaleComponent"):
+		_on_node_added(node)
+	get_tree().node_added.connect(_on_node_added)
+	
+func _on_node_added(node: Node):
+	if node is ScaleComponent:
+		var scale: ScaleComponent = node
+		scale.mouse_enter.connect(_on_scale_mouse_enter.bind(scale))
+		scale.mouse_exit.connect(_on_scale_mouse_exit.bind(scale))
+		
+func _input(event: InputEvent) -> void:
+	if event.is_action_pressed("level"):
+		toggle()
+	if InputHandler.input_owner == InputHandler.SCALE_SELECT:
+		if event.is_action_pressed("primary"):
+			if visible:
+				scale_current_group()
+			
+		
+func toggle():
+	if not visible:
+		toggle_on()
+	else:
+		toggle_off()
+		
+func toggle_on():
+	visible = true
+	color_rect.visible = true
+	InputHandler.scale_select = true
+	GameSpeed.scale_select_factor = 0.02
+	
+	var bullets = get_tree().get_nodes_in_group("BulletTutorial")
+	if bullets.size() > 0:
+		tutorial_bullet = bullets[0]
+	
+
+func toggle_off():
+	GameSpeed.scale_select_factor = 1.0
+	visible = false
+	InputHandler.scale_select = false
+	color_rect.visible = false
+	if is_instance_valid(tutorial_arrow):
+		tutorial_arrow.visible = false
+	switch_group(&"")
+	pass
+
+func can_get(group : StringName):
+	var cost = ScaleManager.get_cost(group)
+	if group == &"": return false
+	if cost > gem_counter.current_xp: return false
+	if ScaleManager.scales.get(group, 0) >= ScaleManager.indexed_groups[group].max_level: return false
+	return true
+	
+func switch_group(group: StringName, oneshot = false):
+	if group == previous_group: return
+	previous_group = group
+	
+	for box in $SelectRects.get_children():
+		box.queue_free()
+	if group != &"":
+		$blip_1.play()
+	
+	var components : Array[ScaleComponent] = []
+	components.assign(get_tree().get_nodes_in_group("ScaleComponent"))
+	var root: Window = get_tree().root
+	
+	var group_data = ScaleManager.indexed_groups.get(group)
+	var cost = ScaleManager.get_cost(group)
+	xp_bar.update_cost(cost)
+	
+	var can_get = can_get(group)
+	
+	var col = (Color(1, 0.878, 0.27) if oneshot else Color("00b303")) if can_get else Color.RED
+	
+	for s in components:
+		if oneshot and s != previous_component: continue
+		if s.scale_group == group:
+			var vp = get_viewport() if s.ui else sub_viewport
+			var box = SELECT_RECT.instantiate()
+			$SelectRects.add_child(box)
+			box.init( s.size * vp.canvas_transform.get_scale() )
+			box.modulate = col
+			if s == previous_component:
+				box.group.text = group_data.name
+				box.desc.text = group_data.desc
+			else:
+				box.group.text = ""
+				box.desc.text = ""
+			
+			box.position = (vp.canvas_transform * s.position) - box.size/2
+			box.target = s
+			box.transform = vp.canvas_transform
+			
+func _on_scale_mouse_enter(scale: ScaleComponent):
+	if not visible: return
+	#switch_group(scale.scale_group)
+	pass
+
+func _on_scale_mouse_exit(scale: ScaleComponent):
+	#switch_group(&"")
+	pass
+	
+func scale_current_group():
+	if previous_group != &"":
+		var cost = ScaleManager.get_cost(previous_group)
+		if not can_get(previous_group):
+			$blip_2.pitch_scale = 0.5	
+			$blip_2.play()
+		else:
+			GameStats.scales += 1
+			gem_counter.add_xp(-cost)
+			if not previous_component.oneshot:
+				ScaleManager.increase_scale(previous_group)
+			var components : Array[ScaleComponent] = []
+			components.assign(get_tree().get_nodes_in_group("ScaleComponent"))
+			if previous_component.oneshot:
+				previous_component.scale()
+			else:
+				for s in components:
+					if s.scale_group == previous_group:
+						s.scale()
+			$blip_2.pitch_scale = 1.0	
+			$blip_2.play()
+		
+	toggle_off()
+
+func _physics_process(_delta: float) -> void:
+	if visible:
+		var query = PhysicsPointQueryParameters2D.new()
+		query.collide_with_areas = true
+		query.collide_with_bodies = false
+		query.collision_mask = 1 << 7
+		
+		var ui_space_id = $"../UI".get_world_2d().space
+		var ui_space = PhysicsServer2D.space_get_direct_state(ui_space_id)
+		query.position = $"../UI".get_global_mouse_position()
+		var result = ui_space.intersect_point(query)
+		
+		if result.size() > 0:
+			previous_component = result[0]['collider'].get_parent()
+			switch_group(previous_component.scale_group)
+			return
+		
+		if is_instance_valid(tutorial_arrow):
+			if max(ScaleManager.scales[&"Bullet"], ScaleManager.scales[&"Slicer"]) > 1: tutorial_arrow.queue_free()
+			if is_instance_valid(tutorial_bullet) and gem_counter.current_xp >= max(ScaleManager.get_cost(&"Bullet"), ScaleManager.get_cost(&"Slicer")):
+				tutorial_arrow.visible = true
+				#tutorial_arrow.global_position = tutorial_bullet.global_position *  + Vector2.RIGHT * 100
+				tutorial_arrow.global_position = sub_viewport.canvas_transform * tutorial_bullet.global_position + Vector2.RIGHT * 20 + Vector2.UP * 30
+				
+				#tutorial_arrow.global_position = Vector2.ZERO
+			else:
+				tutorial_arrow.visible = false
+		
+		var space_id = game.get_world_2d().space
+		var space_state = PhysicsServer2D.space_get_direct_state(space_id)
+		query.position = game.get_global_mouse_position()
+		
+		result = space_state.intersect_point(query)
+		if result.size() == 0:
+			switch_group(&"")
+		else:
+			previous_component = result[0]['collider'].get_parent()
+			switch_group(previous_component.scale_group, previous_component.oneshot)
+			

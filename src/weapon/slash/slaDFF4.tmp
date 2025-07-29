@@ -1,0 +1,103 @@
+[gd_scene load_steps=10 format=3 uid="uid://b3tmpim2shmhv"]
+
+[ext_resource type="Texture2D" uid="uid://1k2n251gl18p" path="res://assets/open/triangle.png" id="1_uig1p"]
+[ext_resource type="PackedScene" uid="uid://dl166bonw3bbc" path="res://src/generics/scale_component.tscn" id="2_o2d7g"]
+[ext_resource type="Script" path="res://src/generics/property_scaler.gd" id="3_hetcj"]
+[ext_resource type="Script" path="res://src/actor/sprite_scaler_component.gd" id="3_pgnnb"]
+
+[sub_resource type="GDScript" id="GDScript_ea4ck"]
+script/source = "extends Area2D
+
+@onready var scale_component: ScaleComponent = $ScaleComponent
+const BULLET_EXPLODE = preload(\"res://src/weapon/basic/bullet_explode.tscn\")
+var speed := 2000.0
+var damage := 2.0
+var velocity := Vector2.ZERO
+var dashes := 1
+var backwards := true
+var t := 1.0
+var dash_start := Vector2.ZERO
+var tween: Tween
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _ready():
+	velocity = Vector2.RIGHT.rotated(rotation) * speed
+	dash()
+	
+func dash():
+	if tween:
+		tween.kill()
+	tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
+	tween.tween_property(self, \"global_position\", global_positon + Vector2.RIGHT.rotated(rotation) * speed * (-1 if backwards else 1), 0.2)
+func _process(delta: float) -> void:
+	#velocity = lerp(velocity, Vector2.ZERO, 1 - pow(0.01, delta * GameSpeed.speed))
+	
+	if velocity.length() < 200.0:
+		if dashes > 0:
+			dashes -= 1
+			dash()
+			backwards = not backwards
+		else:
+			queue_free()
+	translate(velocity*delta*GameSpeed.speed)
+	pass
+
+func _on_area_entered(area: Area2D) -> void:
+	if area.has_method(\"on_hit\"):
+		area.on_hit(self, damage)
+
+	if area.has_method(\"push\"):
+		area.push(Vector2.RIGHT.rotated(rotation)*1.2)
+
+func create_explosion():
+	var e = BULLET_EXPLODE.instantiate()
+	e.rotation = rotation
+	e.global_position = global_position
+	get_parent().add_child(e)
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ityw5"]
+resource_local_to_scene = true
+size = Vector2(1766.67, 2000)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jq4hl"]
+resource_local_to_scene = true
+size = Vector2(2000, 2000)
+
+[sub_resource type="Resource" id="Resource_4pkfa"]
+script = ExtResource("3_hetcj")
+node_path = NodePath("..")
+property = &"speed"
+scale_amount = 1.5
+exponential = false
+
+[sub_resource type="Resource" id="Resource_b4342"]
+script = ExtResource("3_hetcj")
+node_path = NodePath("..")
+property = &"dashes"
+scale_amount = 2.0
+exponential = false
+
+[node name="SlashBullet" type="Area2D"]
+z_index = 2
+scale = Vector2(0.03, 0.03)
+collision_layer = 0
+collision_mask = 2
+script = SubResource("GDScript_ea4ck")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_uig1p")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(50, 3.17891e-05)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_ityw5")
+
+[node name="ScaleComponent" parent="." instance=ExtResource("2_o2d7g")]
+scale_group = &"Slicer"
+select_rectangle = SubResource("RectangleShape2D_jq4hl")
+property_scalers = Array[ExtResource("3_hetcj")]([SubResource("Resource_4pkfa"), SubResource("Resource_b4342")])
+
+[node name="SpriteScalerComponent" type="Node" parent="."]
+script = ExtResource("3_pgnnb")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

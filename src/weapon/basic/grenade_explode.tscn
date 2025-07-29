@@ -1,0 +1,162 @@
+[gd_scene load_steps=14 format=3 uid="uid://c5fg6cl5feyp5"]
+
+[ext_resource type="PackedScene" uid="uid://dl166bonw3bbc" path="res://src/generics/scale_component.tscn" id="2_lsmsn"]
+[ext_resource type="Script" path="res://src/generics/property_scaler.gd" id="3_wqlfy"]
+[ext_resource type="Script" path="res://src/actor/sprite_scaler_component.gd" id="4_gw2t4"]
+[ext_resource type="AudioStream" uid="uid://cnt8vpwmoh5l0" path="res://assets/open/audio/explode_1.wav" id="4_h61qt"]
+
+[sub_resource type="GDScript" id="GDScript_j5kny"]
+script/source = "extends Node2D
+
+@onready var mat: ParticleProcessMaterial = $GPUParticles2D.process_material
+@onready var gpu_particles_2d: GPUParticles2D = $GPUParticles2D
+
+var initial_speed := 1.0 : set=speed_set
+var particle_scale := 15.0 : set=scale_set
+var lifetime = 0.7
+var done_damage := false
+var damage := 4.0
+
+func _process(delta: float) -> void:
+	lifetime -= delta * GameSpeed.speed
+	gpu_particles_2d.speed_scale = GameSpeed.speed
+	#gpu_particles_2d.fixed_fps = int(30/GameSpeed.speed)
+	if lifetime < 0.4 and not done_damage:
+		do_damage()
+	if lifetime < 0:
+		queue_free()
+
+func do_damage():
+	done_damage = true
+	
+	for hitbox in $ScalePivot/Area2D.get_overlapping_areas():
+		if hitbox.has_method(\"on_hit\"):
+			hitbox.on_hit(self, damage)
+	if damage > 5:
+		get_tree().get_first_node_in_group(\"GameCamera\").shake(50, 0.8)
+		$AudioStreamPlayer.play()
+	#$AudioStreamPlayer.play()
+	
+func speed_set(new):
+	initial_speed = new
+	if mat:
+		mat.initial_velocity_min = 50 * new
+		mat.initial_velocity_max = 100 * new
+
+
+func scale_set(new):
+	particle_scale = new
+	if mat:
+		mat.scale_min = 2*particle_scale
+		mat.scale_max = 2*particle_scale
+	if new >= 16:
+		$GPUParticles2D.amount *= 4
+		$GPUParticles2D.modulate = Color.ORANGE_RED
+		
+		done_damage = false
+		lifetime = 0.7
+		$GPUParticles2D.restart()
+		
+
+func _ready():
+	mat.initial_velocity_min = 50 * initial_speed
+	mat.initial_velocity_max = 100 * initial_speed
+	mat.scale_min = 2*particle_scale
+	mat.scale_max = 2*particle_scale
+	$ScalePivot/Area2D
+
+
+func _on_scale_component_scaled() -> void:
+	speed_set(initial_speed * 3)
+	damage = damage * 2.5
+	scale_set(particle_scale * 6)
+	$ScalePivot.scale *= 3
+	
+"
+
+[sub_resource type="Curve" id="Curve_r6hlb"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.99999, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_n6n31"]
+curve = SubResource("Curve_r6hlb")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_eqj72"]
+particle_flag_disable_z = true
+spread = 180.0
+initial_velocity_min = 16.97
+initial_velocity_max = 56.32
+gravity = Vector3(0, 0, 0)
+damping_min = 39.053
+damping_max = 54.438
+scale_min = 2.0
+scale_max = 2.0
+scale_curve = SubResource("CurveTexture_n6n31")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7jmpq"]
+size = Vector2(77.3, 64.2)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e7agy"]
+resource_local_to_scene = true
+size = Vector2(400, 400)
+
+[sub_resource type="Resource" id="Resource_w5cfj"]
+script = ExtResource("3_wqlfy")
+node_path = NodePath("../../..")
+property = &"initial_speed"
+scale_amount = 3.0
+exponential = false
+
+[sub_resource type="Resource" id="Resource_dt3sm"]
+script = ExtResource("3_wqlfy")
+node_path = NodePath("../../..")
+property = &"particle_scale"
+scale_amount = 6.0
+exponential = false
+
+[sub_resource type="Resource" id="Resource_jrybq"]
+script = ExtResource("3_wqlfy")
+node_path = NodePath("../../..")
+property = &"damage"
+scale_amount = 2.0
+exponential = true
+
+[node name="BulletExplode" type="Node2D"]
+scale = Vector2(10, 10)
+script = SubResource("GDScript_j5kny")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="."]
+amount = 32
+process_material = SubResource("ParticleProcessMaterial_eqj72")
+explosiveness = 1.0
+fixed_fps = 0
+
+[node name="ScalePivot" type="Node2D" parent="."]
+
+[node name="Area2D" type="Area2D" parent="ScalePivot"]
+position = Vector2(1.90735e-06, 0)
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ScalePivot/Area2D"]
+position = Vector2(0.0499977, -5.72204e-07)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_7jmpq")
+
+[node name="ScaleComponent" parent="ScalePivot/Area2D" instance=ExtResource("2_lsmsn")]
+scale_group = &"Explosion"
+select_rectangle = SubResource("RectangleShape2D_e7agy")
+oneshot = true
+property_scalers = Array[ExtResource("3_wqlfy")]([SubResource("Resource_w5cfj"), SubResource("Resource_dt3sm"), SubResource("Resource_jrybq")])
+
+[node name="SpriteScalerComponent" type="Node" parent="ScalePivot" node_paths=PackedStringArray("component")]
+script = ExtResource("4_gw2t4")
+component = NodePath("../Area2D/ScaleComponent")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("4_h61qt")
+volume_db = -5.85
+pitch_scale = 0.45
+bus = &"Sound"
+
+[connection signal="scaled" from="ScalePivot/Area2D/ScaleComponent" to="." method="_on_scale_component_scaled"]

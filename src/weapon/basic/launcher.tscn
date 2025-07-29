@@ -1,0 +1,60 @@
+[gd_scene load_steps=9 format=3 uid="uid://dnsngqdh58b3a"]
+
+[ext_resource type="PackedScene" uid="uid://dcth7j2ygnnw8" path="res://src/weapon/weapon.tscn" id="1_lylnn"]
+[ext_resource type="Script" path="res://src/generics/property_scaler.gd" id="3_ik6v0"]
+[ext_resource type="Script" path="res://src/weapon/bullet_spawner.gd" id="4_fkbgi"]
+[ext_resource type="PackedScene" uid="uid://drd7w3gigqbfe" path="res://src/weapon/basic/grenade.tscn" id="4_i4fsx"]
+
+[sub_resource type="GDScript" id="GDScript_7i75p"]
+script/source = "extends Weapon
+
+var weapon_distance := 425.0
+
+var alpha : float = 0.0
+
+func _enter_tree() -> void:
+	fire_rate = 1.0/1.5
+
+func process_movement(delta):
+	alpha += delta * GameSpeed.speed
+	position = player.global_position + Vector2.RIGHT.rotated(-alpha) * weapon_distance
+"
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u41xv"]
+resource_local_to_scene = true
+size = Vector2(2000, 2000)
+
+[sub_resource type="Resource" id="Resource_gpwa1"]
+script = ExtResource("3_ik6v0")
+node_path = NodePath("..")
+property = &"fire_rate"
+scale_amount = 0.85
+exponential = true
+
+[sub_resource type="Resource" id="Resource_nps1y"]
+script = ExtResource("3_ik6v0")
+node_path = NodePath("..")
+property = &"weapon_distance"
+scale_amount = 1.4
+exponential = false
+
+[node name="Launcher" instance=ExtResource("1_lylnn")]
+modulate = Color(1, 0.33, 0.33, 1)
+script = SubResource("GDScript_7i75p")
+player_path = null
+
+[node name="SoundFire" parent="." index="0"]
+volume_db = -7.591
+pitch_scale = 0.58
+
+[node name="ScaleComponent" parent="." index="1"]
+scale_group = &"Cannon"
+select_rectangle = SubResource("RectangleShape2D_u41xv")
+property_scalers = Array[ExtResource("3_ik6v0")]([SubResource("Resource_gpwa1"), SubResource("Resource_nps1y")])
+
+[node name="SpriteScalerComponent" parent="." index="2"]
+scale_amount = 0.7
+
+[node name="BulletSpawner" type="Node2D" parent="." index="4"]
+script = ExtResource("4_fkbgi")
+bullet_scene = ExtResource("4_i4fsx")
