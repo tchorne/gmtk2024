@@ -403,6 +403,23 @@ offset_bottom = 504.0
 theme = ExtResource("8_hkhv0")
 text = "SCALES PERFORMED:  "
 
+[node name="Button" type="Button" parent="UI/Victory"]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1130.0
+offset_top = -56.0
+offset_right = -956.0
+offset_bottom = -10.0
+theme = ExtResource("8_hkhv0")
+theme_override_font_sizes/font_size = 20
+text = "PLAY AGAIN"
+autowrap_mode = 3
+
 [node name="Health" type="Control" parent="UI" groups=["Health"]]
 anchors_preset = 0
 offset_right = 40.0
@@ -502,4 +519,5 @@ script = ExtResource("11_vwy6s")
 [connection signal="timeout" from="UI/Top/XPBar/SpaceTutorial/Timer" to="UI/Top/XPBar/SpaceTutorial" method="_on_timer_timeout"]
 [connection signal="pressed" from="UI/GameOver/Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="UI/GameOver/Button" to="UI/GameOver" method="_on_button_pressed"]
+[connection signal="pressed" from="UI/Victory/Button" to="UI/Victory" method="_on_button_pressed"]
 [connection signal="scaled" from="UI/Health/Bar/Control/ScaleComponent" to="UI/Health" method="_on_scale_component_scaled"]

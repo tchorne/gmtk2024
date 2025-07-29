@@ -31,6 +31,10 @@ var groups = [
 	ScaleGroup.new(&"Slash", "Fire Rate ↑", 5, 2.0),
 	ScaleGroup.new(&"Slicer", "Slices ↑ Speed ↑", 5, 2.0),
 	
+	ScaleGroup.new(&"Launcher", "Splash Damage Radius ↑", 10, 2.0),
+	ScaleGroup.new(&"Grenade", "Damage ↑", 10, 5.0),
+	ScaleGroup.new(&"Explosion", "Supersize ↑", 50, 2.0),
+	
 	ScaleGroup.new(&"CannonSplash", "Splash Damage Radius ↑", 10, 2.0),
 	ScaleGroup.new(&"XPBar", "Gem Capacity ↑", 10, 2.5),
 	ScaleGroup.new(&"WeaponStar", "Options ↑", 2, 5),

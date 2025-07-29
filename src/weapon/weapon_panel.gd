@@ -18,7 +18,8 @@ class WeaponData:
 
 static var WEAPONS = [
 	WeaponData.new("Cannon", "Fires towards the nearest enemy", "res://assets/open/triangle.png", "res://src/weapon/basic/cannon.tscn", Color(0.49, 1, 1)),
-	WeaponData.new("Slash", "Pierces through enemies", "res://assets/open/triangle.png", "res://src/weapon/slash/slash.tscn", Color(0.49, 1, 0.608))
+	WeaponData.new("Slash", "Pierces through enemies", "res://assets/open/triangle.png", "res://src/weapon/slash/slash.tscn", Color(0.49, 1, 0.608)),
+	WeaponData.new("Launcher", "Creates a devastating explosion", "res://assets/open/triangle.png", "res://src/weapon/basic/launcher.tscn", Color(1, 0.329, 0.329))
 	
 	
 ]
@@ -26,10 +27,13 @@ static var WEAPONS = [
 var data: WeaponData
 
 func _ready():
-	data = WEAPONS.pick_random()
+	pass
+
+func set_weapon(index):
+	data = WEAPONS[index%3]
 	$VBoxContainer/Label.text = data.name
 	$VBoxContainer/Label2.text = data.desc
-	$VBoxContainer/Control/TextureRect.texture = data.texture
+	#$VBoxContainer/Control/TextureRect.texture = data.texture
 	$VBoxContainer.modulate = data.color
 
 func _on_texture_button_pressed() -> void:

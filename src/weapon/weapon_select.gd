@@ -11,8 +11,8 @@ func toggle():
 		pass
 		
 func _ready():
-	popup(3)
-	get_tree().root.get_node("Main").reset.connect(popup.bind(3))
+	popup(2)
+	get_tree().root.get_node("Main").reset.connect(popup.bind(2))
 	
 func panel_selected(panel):
 	$blip_2.play()
@@ -28,5 +28,6 @@ func popup(count: int):
 		for i in count:
 			var panel = WEAPON_PANEL.instantiate()
 			hbox.add_child(panel)
+			panel.set_weapon(i)
 			panel.selected.connect(panel_selected.bind(panel))
 		toggle()

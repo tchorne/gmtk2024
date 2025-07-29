@@ -35,3 +35,7 @@ func popup():
 		var tween = get_tree().create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BACK).set_parallel(true)
 		tween.tween_property(credits_labels[i], "modulate", Color.WHITE, 2.0 + 0.6*i)
 		tween.tween_property(credits_labels[i], "position", Vector2(-600, 0), 2.0 + 0.6*i).as_relative()
+
+
+func _on_button_pressed() -> void:
+	get_tree().reload_current_scene()
